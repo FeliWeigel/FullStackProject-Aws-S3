@@ -1,0 +1,56 @@
+.nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+    position: fixed;
+    width: 19%;
+    left: 0;
+    padding-top: 1.45rem;
+    background-color: rgb(0,0, 50);
+    z-index: 1000;
+}
+
+.nav-link {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    gap: .7rem;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.842);
+    transition: .4s;
+}
+
+.nav-link:focus {
+    background-color: rgba(2, 2, 180, 0.546);
+}
+
+.nav-link:hover{
+    background-color: rgba(2, 2, 180, 0.546);
+}
+
+.nav-bar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: fixed;
+    gap: .8rem;
+    top: 0;
+    width: 100%;
+    height: 3.5rem;
+    padding: 0 1rem;
+    background-color:  rgb(0,0, 50);
+    box-shadow: 0px 0px 5px 0px rgba(1, 1, 141, 0.792);
+    z-index: 100;
+}
+
+.profile-btn {
+    color: white;
+    padding: 4px;
+    border-radius: 4px;
+    transition: .4s;
+}
+
+.profile-btn:hover {
+    background-color: rgba(0, 0, 92, 0.662);
+}
