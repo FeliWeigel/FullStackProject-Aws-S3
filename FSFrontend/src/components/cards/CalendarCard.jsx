@@ -11,9 +11,9 @@ const CalendarCard = () => {
         
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Card className="dashboard-card" variant="outlined" sx={{
-                width: '100%',
+                width: '98%',
                 height: 'auto',
-                padding: '1rem',
+                padding: '.5rem .7rem',
                 borderTop: '2px solid rgb(230,0,0)',
                 boxShadow: "0px 0px 3px 0px rgb(0, 0, 100, 0.3)",
                 borderRadius: "0",
@@ -27,7 +27,8 @@ const CalendarCard = () => {
                     marginBottom={'.8rem'}>Date Calendar</Typography>
                 
                 <DateCalendar sx={{
-                    width: '85%',
+                    width: '80%',
+                    height: '89%',
                     boxShadow: '0px 0px 1px 0px rgba(0,0,80,0.5)'
                 }}/>
             </Card>

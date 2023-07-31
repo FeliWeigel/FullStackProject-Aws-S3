@@ -33,6 +33,8 @@ public class HttpSecurityConfig{
                 .authorizeHttpRequests()
                 .requestMatchers("/api/v1/auth/register", "/api/v1/auth/login")
                 .permitAll()
+                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**")
+                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

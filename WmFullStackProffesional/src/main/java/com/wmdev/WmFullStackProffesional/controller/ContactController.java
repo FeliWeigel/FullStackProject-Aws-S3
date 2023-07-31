@@ -1,13 +1,35 @@
 package com.wmdev.WmFullStackProffesional.controller;
 
+import com.wmdev.WmFullStackProffesional.entities.Contact;
+import com.wmdev.WmFullStackProffesional.service.ContactService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/contacts")
 @CrossOrigin("http://localhost:5173")
 @RequiredArgsConstructor
 class ContactController {
+
+    private final ContactService contactService;
+
+    @GetMapping("/all/{userToken}")
+    public ResponseEntity<List<Contact>> getAllContacts(@PathVariable String userToken){
+        return new ResponseEntity<>(contactService.getAllContactsByUser(userToken), HttpStatus.OK);
+    }
+
+    @PostMapping("/add/{userToken}")
+    public ResponseEntity<Contact> addNewContact(@PathVariable String userToken,@RequestBody Contact contact){
+        return new ResponseEntity<>(contactService.addNewContact(contact, userToken), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{contactId}/{userToken}")
+    public ResponseEntity<Contact> deleteContact(@PathVariable String userToken, @PathVariable Long contactId){
+        return new ResponseEntity<>(contactService.deleteContact(contactId, userToken), HttpStatus.OK);
+    }
+
 }

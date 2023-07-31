@@ -5,6 +5,7 @@ import { Box, Container } from "@mui/material"
 import TaskListCard from "../components/cards/TaskListCard"
 import CalendarCard from "../components/cards/CalendarCard"
 import ContactsCard from "../components/cards/ContactsCard"
+import NotesCard from "../components/cards/NotesCard"
 
 const DashboardPage = () => {
   return (
@@ -14,6 +15,7 @@ const DashboardPage = () => {
       padding: '0'
     }}>
         {sessionStorage.getItem("isLogged") == 'true' ? null : <Navigate to="/auth/login"/>}
+        {sessionStorage.removeItem("removeTask")}
         <NavBar/>
         <NavMenu/>
         <Container sx={{
@@ -24,7 +26,7 @@ const DashboardPage = () => {
           height: 'auto',
           position: 'absolute',
           right: '0',
-          top: '5rem'
+          top: '4.7rem'
         }}>
           <Box sx={{
             display: 'flex',
@@ -42,7 +44,7 @@ const DashboardPage = () => {
             position: 'relative'
           }}>
             <CalendarCard/>
-            <TaskListCard/>
+            <NotesCard/>
           </Box>
         </Container>
     </Box>

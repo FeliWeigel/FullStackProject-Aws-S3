@@ -1,6 +1,8 @@
 package com.wmdev.WmFullStackProffesional.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.wmdev.WmFullStackProffesional.entities.Contact;
+import com.wmdev.WmFullStackProffesional.entities.Note;
 import com.wmdev.WmFullStackProffesional.entities.Task;
 import com.wmdev.WmFullStackProffesional.security.jwt.Token;
 import jakarta.persistence.*;
@@ -41,6 +43,14 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<Task> task_list;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Contact> contact_list;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Note> note_list;
 
 
     @Override

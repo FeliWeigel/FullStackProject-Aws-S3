@@ -73,15 +73,21 @@ public class TaskService {
 
         var user = userRepository.findByUsername(username);
         Task taskSaved = taskRepository.findById(id).orElse(null);
-        List<Task> taskList = taskRepository.allTasksByUser(user.get().getId());
 
-        if(taskSaved != null){
-            if(taskList.contains(taskSaved)){
-                taskRepository.delete(taskSaved);
-                return taskSaved;
+        if(user.isPresent()){
+            List<Task> taskList = taskRepository.allTasksByUser(user.get().getId());
+            if(taskSaved != null){
+                if(taskList.contains(taskSaved)){
+                    taskRepository.delete(taskSaved);
+                    return taskSaved;
+                }
+
+                throw new ObjectNotFoundException("Task not found for user: " + user.get().getId());
             }
+
+            throw new ObjectNotFoundException("Task not found!");
         }
 
-        throw new ObjectNotFoundException("Task not found for user: " + user.get().getId());
+        throw new UsernameNotFoundException("User with requested username not found.");
     }
 }

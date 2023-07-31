@@ -1,7 +1,6 @@
 package com.wmdev.WmFullStackProffesional.repository;
 
 import com.wmdev.WmFullStackProffesional.entities.Task;
-import com.wmdev.WmFullStackProffesional.security.jwt.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

@@ -9,6 +9,7 @@ export const userLogout = () => {
         sessionStorage.removeItem("access_token")
         sessionStorage.removeItem("refresh_token")
         sessionStorage.removeItem("isLogged")
+        sessionStorage.removeItem("taskRemove")
         location.reload()
     })
     .catch(err => {
