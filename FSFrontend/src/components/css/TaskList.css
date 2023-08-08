@@ -3,5 +3,18 @@
 }
 
 .trash-icon {
-    color: rgb(228, 0, 0);
+    color: rgba(222, 1, 1, 0.596);
+    transition: .4s;
+}
+
+.complete-icon {
+    color: rgba(1, 204, 1, 0.589);
+    transition: .4s;
+}
+
+.trash-icon:hover {
+    color: rgb(255, 0, 0);;
+}
+.complete-icon:hover {
+    color: rgb(1, 204, 1);
 }

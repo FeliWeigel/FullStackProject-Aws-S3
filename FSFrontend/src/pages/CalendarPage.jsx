@@ -32,7 +32,7 @@ const CalendarPage = () => {
                         marginBottom={'.8rem'}>Date Calendar</Typography>
                     
                     <DateCalendar sx={{
-                        width: '100%',
+                        width: '90%',
                         height: '100%',
                         boxShadow: '0px 0px 1px 0px rgba(0,0,80,0.5)'
                     }}/>

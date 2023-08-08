@@ -22,7 +22,7 @@ export const allByUser = (object) => {
             }
         })
         .catch(err => {
-            console.log(err.data)
+            console.log(err)
         })
     }
 }
@@ -50,11 +50,72 @@ export const deleteEntity = (object, id) => {
             }
         }
         axios.delete(URL, config)
-        .then(res => {
-            console.log(res.data)
+        .then(() => {
+            allTaskByUser()
+            allContactsByUser()
+            allNotesByUser()
+            location.reload()
         })
         .catch(err => {
-            console.log(err.data)
+            console.log(err)
         })
     }
+}
+
+export const addEntity = (object, entityToAdd) => {
+    if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
+        const URL = ApiUrlBase + `/${object}/add/${sessionStorage.getItem("access_token").toString()}`
+        let token = sessionStorage.getItem("access_token")
+        
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+        axios.post(URL, entityToAdd, config)
+        .then(() => {
+            allTaskByUser()
+            allContactsByUser()
+            allNotesByUser()
+            location.reload()
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+}
+
+export const deleteAll = (object) => {
+    if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
+        const URL = ApiUrlBase + `/${object}/delete/all/${sessionStorage.getItem("access_token").toString()}`
+        let token = sessionStorage.getItem("access_token")
+        
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+        axios.delete(URL, config)
+        .then(() => {
+            allTaskByUser()
+            allContactsByUser()
+            allNotesByUser()
+            location.reload()
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+}
+
+export const deleteAllTasks = () => {
+    deleteAll("tasks")
+}
+
+export const deleteAllContacts = () => {
+    deleteAll("contacts")
+}
+
+export const deleteAllNotes = () => {
+    deleteAll("notes")
 }

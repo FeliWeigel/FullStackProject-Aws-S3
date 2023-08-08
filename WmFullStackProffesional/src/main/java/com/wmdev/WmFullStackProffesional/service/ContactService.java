@@ -47,13 +47,19 @@ public class ContactService {
         if(token == null){
             throw new InvalidTokenException("The token is null or invalid to be authorized.");
         }
-        if(contact.getNumber() == null || contact.getName() == null){
+        if(contact.getNumber() == null || contact.getFirstname() == null || contact.getLastname() == null){
             throw new NullRequestBodyException("Error, incomplete request body.");
         }
 
         username = jwtService.extractUsername(userToken);
         User userSaved = userRepository.findByUsername(username).orElse(null);
         if(userSaved != null){
+            String userLogo = "";
+            char fnChar = contact.getFirstname().charAt(0), lnChar = contact.getLastname().charAt(0);
+            userLogo += fnChar;
+            userLogo += lnChar;
+
+            contact.setLogo(userLogo);
             contact.setUser(userSaved);
             return contactRepository.save(contact);
         }
@@ -86,6 +92,26 @@ public class ContactService {
             }
 
             throw new ObjectNotFoundException("Contact nor found!");
+        }
+
+        throw new UsernameNotFoundException("User with requested username not found.");
+    }
+
+    public String removeAllContactsByUser(String userToken){
+        final String username;
+        var token = tokenRepository.findByToken(userToken).orElse(null);
+
+        if(token == null){
+            throw new InvalidTokenException("The token is null or invalid to be authorized.");
+        }
+
+        username = jwtService.extractUsername(userToken);
+        var userSaved = userRepository.findByUsername(username).orElse(null);
+
+        if(userSaved != null){
+            List<Contact> userContacts = contactRepository.allContactsByUser(userSaved.getId());
+            contactRepository.deleteAll(userContacts);
+            return "All deleted!";
         }
 
         throw new UsernameNotFoundException("User with requested username not found.");

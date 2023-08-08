@@ -1,3 +1,25 @@
 .dashboard-card:hover {
     transform: scale(1.01);
 }
+
+.section-title {
+    position: relative;
+}
+
+.section-title::before {
+    content: '';
+    position: absolute;
+    width: 35px;
+    height: 1.5px;
+    background-color: rgb(0, 0, 179);
+    bottom: 0;
+}
+
+.add-link {
+    color: rgba(0, 0, 131, 0.568);
+    transition: .4s;
+}
+
+.add-link:hover {
+    color: rgb(0, 0, 131);
+}

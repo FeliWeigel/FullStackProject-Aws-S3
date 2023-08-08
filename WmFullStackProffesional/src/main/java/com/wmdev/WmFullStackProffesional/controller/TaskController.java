@@ -17,18 +17,27 @@ public class TaskController {
     private final TaskService taskService;
 
     @GetMapping("/all/{token}")
-    @CrossOrigin("http://localhost:5173")
     public ResponseEntity<Object> getAllUserTasks(@PathVariable String token){
         return new ResponseEntity<>(taskService.allTasksFromUser(token), HttpStatus.OK);
     }
 
     @PostMapping("/add/{token}")
-    public ResponseEntity<Object> addTaskToList(@RequestBody Task task, @PathVariable String token){
+    public ResponseEntity<Task> addTaskToList(@RequestBody Task task, @PathVariable String token){
         return new ResponseEntity<>(taskService.addTask(task, token), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}/{token}")
-    public ResponseEntity<Object> addTaskToList(@PathVariable String token, @PathVariable Long id){
+    public ResponseEntity<Task> deleteTask(@PathVariable String token, @PathVariable Long id){
         return new ResponseEntity<>(taskService.deleteTask(id, token), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/all/{token}")
+    public ResponseEntity<String> deleteAllTasks(@PathVariable String token){
+        return new ResponseEntity<>(taskService.removeAllTasksByUser(token), HttpStatus.OK);
+    }
+
+    @PutMapping("/complete/{token}")
+    public ResponseEntity<Task> completeTask(@RequestBody Task task, @PathVariable String token){
+        return new ResponseEntity<>(taskService.completeTask(task, token), HttpStatus.OK);
     }
 }

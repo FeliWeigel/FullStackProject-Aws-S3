@@ -19,8 +19,10 @@ public class Contact {
     @Id
     @GeneratedValue
     private Long id;
-    private String name;
+    private String firstname;
+    private String lastname;
     private Long number;
+    private String logo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

@@ -44,7 +44,7 @@ const NavBar = () => {
       height: 'auto',
       padding: '1rem',
       background: 'rgba(0,0,54, 0.95)',
-      position: 'absolute',
+      position: 'fixed',
       right: '0',
       top: settingsDisplay ?  '3rem' : '-120px',
       transition: '.5s',

@@ -1,29 +1,58 @@
 import { useState } from "react"
-import { Navigate } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
 
 import NavBar from "../components/nav/NavBar"
 import NavMenu from "../components/nav/NavMenu"
 import TaskListCard from "../components/cards/TaskListCard"
 
-import { Box, Button, Container } from "@mui/material"
+import { Box, Button, Container, Typography } from "@mui/material"
 
 import Icon from "react-icons-kit"
 import {plus} from 'react-icons-kit/icomoon/plus'
 import {cross} from 'react-icons-kit/icomoon/cross'
 import {edit} from 'react-icons-kit/fa/edit'
 import {trash} from 'react-icons-kit/fa/trash'
+import {clipboard} from 'react-icons-kit/icomoon/clipboard'
+import { deleteAllTasks } from "../services/EntitiesService"
 
 const TasksPage = () => {
   const [removeTask, setRemoveTask] = useState(false)
+  const [completeTask, setCompleteTask] = useState(false)
+  const [removeAll, setRemoveAll] = useState(false)
 
   function handleRemove(){
     if(!removeTask){
       setRemoveTask(true)
       sessionStorage.setItem("removeTask", true)
+      sessionStorage.setItem("completeTask", false)
     }else {
       setRemoveTask(false)
       sessionStorage.setItem("removeTask", false)
     }
+  }
+
+  function handleComplete(){
+    if(!completeTask){
+      setCompleteTask(true)
+      sessionStorage.setItem("completeTask", true)
+      sessionStorage.setItem("removeTask", false)
+    }else{
+      setCompleteTask(false)
+      sessionStorage.setItem("completeTask", false)
+    }
+  }
+
+  function handleRemoveAllState() {
+    if(!removeAll){
+      setRemoveAll(true)
+    }else{
+      setRemoveAll(false)
+    }
+  }
+
+  function handleRemoveAll(){
+    deleteAllTasks()
+    setRemoveAll(false)
   }
 
   return (
@@ -44,14 +73,38 @@ const TasksPage = () => {
             right: '0',
             top: '4.7rem'
           }}>
-            <TaskListCard removeState={sessionStorage.getItem("removeTask")}/>
+            <TaskListCard 
+              removeState={sessionStorage.getItem("removeTask")} 
+              completeState={sessionStorage.getItem("completeTask")}
+            />
+            
             <Box display={'flex'} flexDirection={'column'} alignItems={'center'} gap={'.5rem'}>
-                <Button variant="outlined"><Icon icon={plus}></Icon></Button>
-                <Button variant="outlined"><Icon icon={edit}></Icon></Button>
-                <Button onClick={handleRemove} variant="outlined"><Icon icon={trash}></Icon></Button>
-                <Button variant="outlined"><Icon icon={cross}></Icon></Button>
+                <Link to="/task_list/add">
+                  <Button title="Add Task" variant="outlined"><Icon icon={plus} size={16}></Icon></Button>
+                </Link>
+                <Button title="Edit Task" variant="outlined"><Icon icon={edit} size={18}></Icon></Button>
+                <Button title="Remove Task" onClick={handleRemove} variant={sessionStorage.getItem("removeTask") == "true" ? 'contained' : 'outlined'}><Icon icon={trash} size={19}></Icon></Button>
+                <Button title="Complete Task" onClick={handleComplete} variant={sessionStorage.getItem("completeTask") == "true" ? 'contained' : 'outlined'}><Icon icon={clipboard} size={18}></Icon></Button>
+                <Button title="Remove All" onClick={handleRemoveAllState}  variant="outlined"><Icon icon={cross} size={15}></Icon></Button>
             </Box>
           </Container>
+          {removeAll ? 
+              <Box width={'100%'} position={"relative"} height={'100vh'} sx={{
+                background: 'rgba(0,0,0,0.5)',
+                backgroundSize: 'cover'
+              }}>
+                <Box position={'absolute'} top={'40%'} left={'40%'} padding={'1rem'} sx={{
+                  background: 'rgb(0,0,90)',
+                  color: '#fff'
+                }}>
+                  <Typography typography={'p'} fontSize={'1.1rem'} textAlign={'center'} marginBottom={'.5rem'}>Are you sure you want to delete everything?</Typography>
+                  <Box display={'flex'} justifyContent={'center'} gap={'1rem'}>
+                    <Button onClick={handleRemoveAll} variant="outlined">Yes</Button>
+                    <Button onClick={handleRemoveAllState} variant="outlined">No</Button>
+                  </Box>
+                </Box>
+              </Box> 
+              : null}
       </Box>
   )
 }

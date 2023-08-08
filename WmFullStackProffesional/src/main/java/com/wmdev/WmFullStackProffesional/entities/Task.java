@@ -22,6 +22,7 @@ public class Task {
     @GeneratedValue
     private Long id;
     private String name;
+    private LocalDate creationDate;
     private LocalDate expirationDate;
     private Boolean isCompleted;
 

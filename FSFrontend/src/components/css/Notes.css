@@ -1,0 +1,15 @@
+.title-input-note {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.notes-textarea {
+    color: rgba(0, 0, 0, 0.779);
+    border: 1.5px solid rgba(2, 2, 127, 0.326);
+    transition: .4s;
+}
+
+.notes-textarea:focus {
+    outline: none;
+    border: 1.5px solid rgb(0, 0, 97);
+}

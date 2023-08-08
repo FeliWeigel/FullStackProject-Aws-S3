@@ -32,4 +32,9 @@ public class NoteController {
         return new ResponseEntity<>(noteService.deleteNote(noteId, userToken), HttpStatus.OK);
     }
 
+    @DeleteMapping("/delete/all/{userToken}")
+    public ResponseEntity<String> deleteAllNotes(@PathVariable String userToken){
+        return new ResponseEntity<>(noteService.removeAllNotesByUser(userToken), HttpStatus.OK);
+    }
+
 }

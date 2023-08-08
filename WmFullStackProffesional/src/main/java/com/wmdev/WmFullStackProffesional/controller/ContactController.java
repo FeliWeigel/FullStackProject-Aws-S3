@@ -32,4 +32,9 @@ class ContactController {
         return new ResponseEntity<>(contactService.deleteContact(contactId, userToken), HttpStatus.OK);
     }
 
+    @DeleteMapping("/delete/all/{userToken}")
+    public ResponseEntity<String> deleteAllContacts(@PathVariable String userToken){
+        return new ResponseEntity<>(contactService.removeAllContactsByUser(userToken), HttpStatus.OK);
+    }
+
 }

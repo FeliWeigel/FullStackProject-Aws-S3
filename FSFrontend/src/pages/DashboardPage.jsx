@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
 import NavMenu from "../components/nav/NavMenu"
 import NavBar from "../components/nav/NavBar"
 import { Box, Container } from "@mui/material"
@@ -16,6 +16,7 @@ const DashboardPage = () => {
     }}>
         {sessionStorage.getItem("isLogged") == 'true' ? null : <Navigate to="/auth/login"/>}
         {sessionStorage.removeItem("removeTask")}
+        {sessionStorage.removeItem("completeTask")}
         <NavBar/>
         <NavMenu/>
         <Container sx={{
@@ -28,24 +29,37 @@ const DashboardPage = () => {
           right: '0',
           top: '4.7rem'
         }}>
+          
           <Box sx={{
             display: 'flex',
             flexDirection: 'column',
             gap: '1rem',
             position: 'relative'
           }}>
-            <TaskListCard/>
-            <ContactsCard/>
+            <Link to="/task_list">
+              <TaskListCard/>
+            </Link>
+
+            <Link to="/contacts">
+              <ContactsCard/>
+            </Link>
           </Box>
+
           <Box sx={{
             display: 'flex',
             flexDirection: 'column',
             gap: '1rem',
             position: 'relative'
           }}>
-            <CalendarCard/>
-            <NotesCard/>
+            <Link to="/calendar">
+              <CalendarCard/>
+            </Link>
+
+            <Link to="/notes"> 
+              <NotesCard/>
+            </Link>
           </Box>
+
         </Container>
     </Box>
   )
