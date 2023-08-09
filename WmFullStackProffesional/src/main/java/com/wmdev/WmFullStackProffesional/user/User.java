@@ -19,7 +19,15 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "users")
+@Table(
+        name = "users",
+        uniqueConstraints = {
+            @UniqueConstraint(
+                    name = "profile_image_id_unique",
+                    columnNames = "profileImageId"
+            )
+        }
+)
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,6 +41,9 @@ public class User implements UserDetails {
     private String lastname;
     private String email;
     private String password;
+
+    @Column(unique = true)
+    private String profileImageId;
 
     @Enumerated(EnumType.STRING)
     private Role role;

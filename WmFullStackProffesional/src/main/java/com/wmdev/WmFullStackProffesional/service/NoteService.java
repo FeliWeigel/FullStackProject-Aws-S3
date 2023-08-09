@@ -1,10 +1,9 @@
 package com.wmdev.WmFullStackProffesional.service;
 
 import com.wmdev.WmFullStackProffesional.entities.Note;
-import com.wmdev.WmFullStackProffesional.entities.Task;
 import com.wmdev.WmFullStackProffesional.exception.InvalidTokenException;
 import com.wmdev.WmFullStackProffesional.exception.NullRequestBodyException;
-import com.wmdev.WmFullStackProffesional.exception.ObjectNotFoundException;
+import com.wmdev.WmFullStackProffesional.exception.ResourceNotFoundException;
 import com.wmdev.WmFullStackProffesional.repository.NoteRepository;
 import com.wmdev.WmFullStackProffesional.repository.UserRepository;
 import com.wmdev.WmFullStackProffesional.security.jwt.JwtService;
@@ -83,10 +82,10 @@ public class NoteService {
                     return noteSaved;
                 }
 
-                throw new ObjectNotFoundException("Contact nor found for user with id: " + userSaved.getId());
+                throw new ResourceNotFoundException("Contact nor found for user with id: " + userSaved.getId());
             }
 
-            throw new ObjectNotFoundException("Contact nor found!");
+            throw new ResourceNotFoundException("Contact nor found!");
         }
 
         throw new UsernameNotFoundException("User with requested username not found.");

@@ -1,5 +1,6 @@
 package com.wmdev.WmFullStackProffesional.aws;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -28,7 +29,7 @@ public class S3Service {
         s3Client.putObject(putObjectRequest, RequestBody.fromBytes(file));
     }
 
-    public byte[] uploadObject(String key, String bucketName){
+    public byte[] getObject(String key, String bucketName){
         GetObjectRequest getObjectRequest = GetObjectRequest.builder()
                 .bucket(bucketName)
                 .key(key)

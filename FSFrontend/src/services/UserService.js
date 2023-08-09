@@ -1,6 +1,24 @@
 import axios from "axios"
 import { ApiUrlBase } from "../utils/ApiUrlBase"
 
+export const getUserDetails = () => {
+    if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
+        const URL = ApiUrlBase + `/users/user_details/${sessionStorage.getItem("access_token").toString()}`
+        let token = sessionStorage.getItem("access_token")
+        
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        return axios.get(URL, config)
+        .catch(err => {
+            throw err
+        })
+    }
+}
+
 export const userLogout = () => {
     const URL = ApiUrlBase + "/auth/logout"
     axios.post(URL)
@@ -18,4 +36,40 @@ export const userLogout = () => {
     .catch(err => {
         console.log(err)
     })    
+}
+
+export const uploadUserProfileImage = async(formData) => {
+    if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
+        const URL = ApiUrlBase + `/users/update/${sessionStorage.getItem("access_token").toString()}/profile-image`
+        let token = sessionStorage.getItem("access_token")
+        
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        return axios.post(URL, formData, config)
+        .catch(err => {
+            throw err
+        })
+    }
+}
+
+export const getUserProfileImage = async(formData) => {
+    if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
+        const URL = ApiUrlBase + `/users/user_details/${sessionStorage.getItem("access_token").toString()}/profile-image`
+        let token = sessionStorage.getItem("access_token")
+        
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        return axios.post(URL, formData, config)
+        .catch(err => {
+            throw err
+        })
+    }
 }

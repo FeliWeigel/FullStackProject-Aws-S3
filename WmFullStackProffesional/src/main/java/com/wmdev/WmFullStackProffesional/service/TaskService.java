@@ -1,10 +1,9 @@
 package com.wmdev.WmFullStackProffesional.service;
 
-import com.wmdev.WmFullStackProffesional.entities.Contact;
 import com.wmdev.WmFullStackProffesional.entities.Task;
 import com.wmdev.WmFullStackProffesional.exception.InvalidTokenException;
 import com.wmdev.WmFullStackProffesional.exception.NullRequestBodyException;
-import com.wmdev.WmFullStackProffesional.exception.ObjectNotFoundException;
+import com.wmdev.WmFullStackProffesional.exception.ResourceNotFoundException;
 import com.wmdev.WmFullStackProffesional.repository.TaskRepository;
 import com.wmdev.WmFullStackProffesional.repository.UserRepository;
 import com.wmdev.WmFullStackProffesional.security.jwt.JwtService;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -86,10 +84,10 @@ public class TaskService {
                     return taskSaved;
                 }
 
-                throw new ObjectNotFoundException("Task not found for user: " + user.get().getId());
+                throw new ResourceNotFoundException("Task not found for user: " + user.get().getId());
             }
 
-            throw new ObjectNotFoundException("Task not found!");
+            throw new ResourceNotFoundException("Task not found!");
         }
 
         throw new UsernameNotFoundException("User with requested username not found.");
@@ -106,7 +104,7 @@ public class TaskService {
         if(user.isPresent()){
             var taskSaved = taskRepository.findById(task.getId()).orElse(null);
             if(taskSaved == null){
-                throw new ObjectNotFoundException("Task not found!");
+                throw new ResourceNotFoundException("Task not found!");
             }
 
             taskSaved.setIsCompleted(true);
