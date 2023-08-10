@@ -11,6 +11,7 @@ import {angleDown} from 'react-icons-kit/fa/angleDown'
 import {signOut} from 'react-icons-kit/fa/signOut'
 import {user} from 'react-icons-kit/icomoon/user'
 import {iosContact} from 'react-icons-kit/ionicons/iosContact'
+import { Link } from "react-router-dom"
 
 const NavBar = () => {
   const [userDetails, setUserDetails] = useState([])
@@ -39,8 +40,7 @@ const NavBar = () => {
       <nav className="nav-bar">
         
         <Typography typography={'p'}
-         color={'#fff'} fontSize={'1rem'} 
-         fontStyle={'italic'} position={'relative'} sx={{
+         color={'#fff'} fontSize={'1rem'} position={'relative'} sx={{
           ":before": {
             content: "''",
             position: 'absolute',
@@ -48,12 +48,12 @@ const NavBar = () => {
             width: '100%',
             height: '.5px',
             background: 'rgba(255,255,255,0.4)',
-            boxShadow: '0px 0px 2px 1px rgba(255,255,255, 0.20)'
+            boxShadow: '0px 0px 1px 1px rgba(255,255,255, 0.1)'
           }
         }}>{userDetails.username}</Typography>
         <Box sx={{
-          width: '30px',
-          height: '30px',
+          width: '35px',
+          height: '35px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -62,7 +62,6 @@ const NavBar = () => {
           color: '#fff',
           textAlign: 'center'
         }}>
-          {console.log(userDetails)}
           { userDetails.profileImageId !== null ? <img className="user-profile-img" src={getUserProfileImageUrl()}></img> : <Icon icon={iosContact} size={38}></Icon> }
         </Box>
         <button onClick={displayProfileSettings} className="profile-btn">
@@ -81,15 +80,17 @@ const NavBar = () => {
       zIndex: '10'
     }}>
       
-      <Button sx={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '.4rem',
-        color: '#fff',
-        borderRadius: '0',
-        borderBottom: '1px solid rgba(255,255,255, 0.3)',
-        marginBottom: '.5rem'
-      }}>Profile <Icon icon={user} size={19}></Icon></Button>
+      <Link to="/user/profile">
+        <Button sx={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '.4rem',
+          color: '#fff',
+          borderRadius: '0',
+          borderBottom: '1px solid rgba(255,255,255, 0.3)',
+          marginBottom: '.5rem'
+        }}>Profile <Icon icon={user} size={19}></Icon></Button>
+      </Link>
 
       <Button sx={{
         display: 'flex',

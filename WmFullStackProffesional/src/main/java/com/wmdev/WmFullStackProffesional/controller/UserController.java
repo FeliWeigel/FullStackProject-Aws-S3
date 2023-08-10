@@ -3,6 +3,7 @@ package com.wmdev.WmFullStackProffesional.controller;
 import com.wmdev.WmFullStackProffesional.repository.UserRepository;
 import com.wmdev.WmFullStackProffesional.user.User;
 import com.wmdev.WmFullStackProffesional.user.UserService;
+import com.wmdev.WmFullStackProffesional.user.UserUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,6 +29,11 @@ public class UserController {
     @GetMapping("/user_details/{userToken}")
     public ResponseEntity<User> getUserProfileDetails(@PathVariable("userToken") String userToken){
         return new ResponseEntity<>(userService.getUserProfile(userToken), HttpStatus.OK);
+    }
+
+    @PutMapping("/update/{userToken}")
+    public ResponseEntity<Object> updateUser(@PathVariable("userToken") String userToken, @RequestBody UserUpdateRequest userUpdateRequest){
+        return userService.updateUserProfile(userToken, userUpdateRequest);
     }
 
     @PostMapping(

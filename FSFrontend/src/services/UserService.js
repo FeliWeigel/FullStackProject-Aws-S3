@@ -1,6 +1,15 @@
 import axios from "axios"
 import { ApiUrlBase } from "../utils/ApiUrlBase"
 
+export const config = () => {
+    let token = sessionStorage.getItem("access_token")
+    return {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+}
+
 export const getUserDetails = () => {
     if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
         const URL = ApiUrlBase + `/users/user_details/${sessionStorage.getItem("access_token").toString()}`
@@ -38,6 +47,22 @@ export const userLogout = () => {
     })    
 }
 
+export const updateUserProfile = (updateRequest) => {
+    if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
+        const URL = ApiUrlBase + `/users/update/${sessionStorage.getItem("access_token").toString()}`
+        let token = sessionStorage.getItem("access_token")
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+        return axios.put(URL, updateRequest, config)
+        .catch(err => {
+            throw err
+        })
+    }
+}
+
 export const uploadUserProfileImage = async(formData) => {
     if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
         const URL = ApiUrlBase + `/users/update/${sessionStorage.getItem("access_token").toString()}/profile-image`
@@ -50,6 +75,9 @@ export const uploadUserProfileImage = async(formData) => {
         }
 
         return axios.post(URL, formData, config)
+        .then(() => {
+            location.reload()
+        })
         .catch(err => {
             throw err
         })

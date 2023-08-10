@@ -10,6 +10,7 @@ import AddNotePage from "./pages/AddNotePage"
 import ContactsPage from "./pages/ContactsPage"
 import NotesPage from "./pages/NotesPage"
 import UpdateProfilePage from "./pages/UpdateProfilePage"
+import UserProfilePage from "./pages/UserProfilePage"
 function App() {
 
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route exact path="/" element={<DashboardPage/>}></Route>
         <Route exact path="/auth/register" element={<RegisterPage/>}></Route>
         <Route exact path="/auth/login" element={<LoginPage/>}></Route>
+        <Route exact path="/user/profile" element={<UserProfilePage/>}></Route>
         <Route exact path="/user/profile/update" element={<UpdateProfilePage/>}></Route>
         <Route exact path="/task_list" element={<TasksPage/>}></Route>
         <Route exact path="/task_list/add" element={<AddTaskPage/>}></Route>

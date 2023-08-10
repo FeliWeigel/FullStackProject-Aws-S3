@@ -59,6 +59,7 @@
     position: relative;
     width: 40px;
     height: 35px;
+    object-fit: cover;
     border-radius: 50%;
     border: 1.5px solid #ffffffb7;
 }

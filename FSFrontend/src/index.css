@@ -20,3 +20,7 @@ button, a {
 .bg-none {
   background: none;
 }
+
+strong {
+  color: rgba(0, 0, 0, 0.929);
+}

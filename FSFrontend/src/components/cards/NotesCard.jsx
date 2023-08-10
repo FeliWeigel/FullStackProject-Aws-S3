@@ -33,6 +33,7 @@ const NotesCard = () => {
                 marginBottom={'.7rem'}>Notes</Typography>
             <Box sx={{
                 display: 'flex',
+                justifyContent: 'center',
                 flexWrap: 'wrap',
                 gap: '1rem'
             }}>

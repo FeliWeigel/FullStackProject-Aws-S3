@@ -27,7 +27,8 @@ const DashboardPage = () => {
           height: 'auto',
           position: 'absolute',
           right: '0',
-          top: '4.7rem'
+          top: '1.7rem',
+          padding: '3.5rem'
         }}>
           
           <Box sx={{
