@@ -34,12 +34,11 @@ public class UserController {
             value = "/update/{userToken}/profile-image",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
-    public ResponseEntity<Object> uploadProfileImage(@PathVariable("userToken") String userToken, @RequestParam("file") MultipartFile file){
-        userService.uploadUserProfileImage(userToken,file);
-        return new ResponseEntity(HttpStatus.OK);
+    public ResponseEntity<String> uploadProfileImage(@PathVariable("userToken") String userToken, @RequestParam("file") MultipartFile file){
+        return new ResponseEntity<>(userService.uploadUserProfileImage(userToken,file), HttpStatus.OK);
     }
 
-    @GetMapping("/user_details/{userToken}/profile-image")
+    @GetMapping("/user_details/profile-image/{userToken}")
     public ResponseEntity<byte[]> getProfileImage(@PathVariable("userToken") String userToken){
         return new ResponseEntity<>(userService.getUserProfileImage(userToken), HttpStatus.OK);
     }

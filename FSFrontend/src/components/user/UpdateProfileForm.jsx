@@ -1,8 +1,13 @@
-import { Box, Button, TextField, Typography } from '@mui/material'
-import {useCallback} from 'react'
+import {useCallback, useState} from 'react'
 import {useDropzone} from 'react-dropzone'
+
 import "../css/UserProfile.css"
-import { uploadUserProfileImage } from '../../services/UserService'
+
+import { getUserProfileImageUrl, uploadUserProfileImage } from '../../services/UserService'
+
+import { Box, Button, TextField, Typography } from '@mui/material'
+import Icon from 'react-icons-kit'
+import {pencil} from 'react-icons-kit/icomoon/pencil'
 
 const Dropzone = () => {
   const onDrop = useCallback(acceptedFiles => {
@@ -26,6 +31,16 @@ const Dropzone = () => {
 }
 
 const UpdateProfileForm = () => {
+  const [updateImage, setUpdateImage] = useState(false)
+
+  function handleUpdateImageState(){
+    if(!updateImage){
+      setUpdateImage(true)
+    }else{
+      setUpdateImage(false)
+    }
+  }
+
   return (
     <Box sx={{
       display: 'flex',
@@ -37,17 +52,22 @@ const UpdateProfileForm = () => {
       width: '85%'
     }}>
         <Typography typography={'h5'} fontSize={'1.2rem'} color={'rgba(0,0,0,0.85)'} marginBottom={'.5rem'}>Change profile image</Typography>
-        <Box sx={{
-          width: '60%',
-          textAlign: 'center',
-          padding: '1.6rem 2rem',
-          marginBottom: '1rem',
-          fontSize: '1.2rem',
-          border: '2px dashed rgba(0,0,90,0.8)',
-          cursor: 'pointer'
-        }}>
-          <Dropzone/>
+        <Box position={'relative'} textAlign={'center'}>
+          <img className='update-profile-img' src={getUserProfileImageUrl()} alt="" />
+          <Icon onClick={handleUpdateImageState} className='update-image-icon' icon={pencil} size={23}></Icon>
         </Box>
+        {updateImage ? 
+          <Box sx={{
+            width: '60%',
+            textAlign: 'center',
+            padding: '1.6rem 2rem',
+            marginBottom: '1rem',
+            fontSize: '1.2rem',
+            border: '2px dashed rgba(0,0,90,0.8)',
+            cursor: 'pointer'
+          }}>
+            <Dropzone/>
+          </Box> : null}
         
         <Box 
           component={'form'} 

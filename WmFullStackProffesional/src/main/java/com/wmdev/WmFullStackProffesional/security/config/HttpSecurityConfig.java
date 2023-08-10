@@ -45,6 +45,8 @@ public class HttpSecurityConfig{
                 .permitAll()
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**")
                 .permitAll()
+                .requestMatchers("/api/v1/users/user_details/profile-image/**")
+                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

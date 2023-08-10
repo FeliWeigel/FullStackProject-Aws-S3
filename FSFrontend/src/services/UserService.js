@@ -56,20 +56,9 @@ export const uploadUserProfileImage = async(formData) => {
     }
 }
 
-export const getUserProfileImage = async(formData) => {
-    if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
-        const URL = ApiUrlBase + `/users/user_details/${sessionStorage.getItem("access_token").toString()}/profile-image`
-        let token = sessionStorage.getItem("access_token")
-        
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }
 
-        return axios.post(URL, formData, config)
-        .catch(err => {
-            throw err
-        })
+export const getUserProfileImageUrl = () => {
+    if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){    
+        return ApiUrlBase + `/users/user_details/profile-image/${sessionStorage.getItem("access_token").toString()}`
     }
 }

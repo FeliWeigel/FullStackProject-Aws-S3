@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import "../../index.css"
 import "./Nav.css"
 
-import { getUserDetails, userLogout } from "../../services/UserService"
+import { getUserDetails, getUserProfileImageUrl, userLogout } from "../../services/UserService"
 
 import { Box, Button, Typography } from "@mui/material"
 import Icon from "react-icons-kit"
@@ -29,8 +29,7 @@ const NavBar = () => {
   }
 
   useEffect(() => {
-    getUserDetails()
-    .then(res => {
+    getUserDetails().then(res => {
       setUserDetails(res.data)
     })
   }, [])
@@ -48,8 +47,8 @@ const NavBar = () => {
             bottom: '0',
             width: '100%',
             height: '.5px',
-            background: 'rgba(255,255,255,0.7)',
-            boxShadow: '0px 0px 4px 1px rgb(255,255,255, 0.25)'
+            background: 'rgba(255,255,255,0.4)',
+            boxShadow: '0px 0px 2px 1px rgba(255,255,255, 0.20)'
           }
         }}>{userDetails.username}</Typography>
         <Box sx={{
@@ -63,7 +62,8 @@ const NavBar = () => {
           color: '#fff',
           textAlign: 'center'
         }}>
-          {userDetails.profileImageId == null ? <Icon icon={iosContact} size={38}></Icon> : null}
+          {console.log(userDetails)}
+          { userDetails.profileImageId !== null ? <img className="user-profile-img" src={getUserProfileImageUrl()}></img> : <Icon icon={iosContact} size={38}></Icon> }
         </Box>
         <button onClick={displayProfileSettings} className="profile-btn">
           <Icon icon={angleDown} size={18}></Icon>

@@ -24,10 +24,11 @@ const UpdateProfilePage = () => {
             justifyContent: 'center',
             alignItems:'center',
             width: '80%',
-            height: '110vh',
+            height: 'auto',
             position: 'absolute',
             right: '0',
-            top: '2.3rem'
+            top: '1.5rem',
+            padding: '3rem 0'
           }}>
             <Typography typography={'h3'} alignSelf={'flex-start'}
             fontSize={'1.6rem'} marginBottom={'1rem'} position={'relative'} 

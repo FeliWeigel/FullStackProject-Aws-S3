@@ -41,6 +41,7 @@ public class UserService {
                     .lastname(userSaved.get().getLastname())
                     .username(userSaved.get().getUsername())
                     .email(userSaved.get().getEmail())
+                    .profileImageId(userSaved.get().getProfileImageId())
                     .role(Role.USER)
                     .build();
         }
@@ -48,7 +49,7 @@ public class UserService {
         throw new UsernameNotFoundException("User with requested username not found.");
     }
 
-    public void uploadUserProfileImage(String userToken, MultipartFile file){
+    public String uploadUserProfileImage(String userToken, MultipartFile file){
         final String username;
         var token = tokenRepository.findByToken(userToken).orElse(null);
         if(token == null){
@@ -56,16 +57,20 @@ public class UserService {
         }
 
         username = jwtService.extractUsername(userToken);
-        var userSaved = userRepository.findByUsername(username);
+        User userSaved = userRepository.findByUsername(username).orElse(null);
 
-        if(userSaved.isPresent()){
-            String profileImageId = UUID.randomUUID().toString() + ".jpg";
+        if(userSaved != null){
+            String profileImageId = UUID.randomUUID().toString();
             try {
                 s3Service.putObject(
-                        "profile-images/%s/%s".formatted(userSaved.get().getId(), profileImageId),
+                        "profile-images/%s/%s".formatted(userSaved.getId(), profileImageId),
                         s3Buckets.getGlobal(),
                         file.getBytes()
                 );
+
+                userSaved.setProfileImageId(profileImageId);
+                userRepository.save(userSaved);
+                return profileImageId;
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -85,7 +90,7 @@ public class UserService {
         var userSaved = userRepository.findByUsername(username);
 
         if(userSaved.isPresent()){
-            if(userSaved.get().getProfileImageId() == null){
+            if(userSaved.get().getProfileImageId() == null || userSaved.get().getProfileImageId().isBlank()){
                 throw new ResourceNotFoundException("The resource is undefined.");
             }
 
