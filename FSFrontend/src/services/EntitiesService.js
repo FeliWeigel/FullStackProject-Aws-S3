@@ -119,3 +119,21 @@ export const deleteAllContacts = () => {
 export const deleteAllNotes = () => {
     deleteAll("notes")
 }
+
+export const countEntity = (object) => {
+    if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
+        const URL = ApiUrlBase + `/${object}/count/${sessionStorage.getItem("access_token").toString()}`
+        let token = sessionStorage.getItem("access_token")
+        
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        return axios.get(URL, config)
+        .catch(err => {
+            console.log(err)
+        })
+    }
+}

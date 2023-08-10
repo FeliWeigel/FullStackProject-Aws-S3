@@ -76,13 +76,13 @@ export default class UpdateProfileForm extends React.Component {
     })
 
     updateUserProfile(this.state.user)
-    .then(() => {
+    .then(
       this.setState({
         isLoading: false,
         error: false,
         message: "Your profile has been successfully updated!"
       })
-    })
+    )
     .catch(err => {
       this.setState({
         isLoading: false,
@@ -109,17 +109,18 @@ export default class UpdateProfileForm extends React.Component {
             <Icon onClick={this.handleUpdateImageState} className='update-image-icon' icon={pencil} size={23}></Icon>
           </Box>
           {this.state.updateImage ? 
-            <Box sx={{
-              width: '60%',
-              textAlign: 'center',
-              padding: '1.6rem 2rem',
-              marginBottom: '1rem',
-              fontSize: '1.2rem',
-              border: '2px dashed rgba(0,0,90,0.8)',
-              cursor: 'pointer'
-            }}>
-              <Dropzone/>
-            </Box> : null}
+              <Box sx={{
+                width: '60%',
+                textAlign: 'center',
+                padding: '1.6rem 2rem',
+                marginBottom: '1rem',
+                fontSize: '1.2rem',
+                border: '2px dashed rgba(0,0,90,0.8)',
+                cursor: 'pointer'
+              }}>
+                <Dropzone/>
+              </Box> 
+          : null}
           
           <Box 
             component={'form'}
@@ -127,22 +128,23 @@ export default class UpdateProfileForm extends React.Component {
             display={'flex'} 
             flexDirection={'column'} 
             alignItems={'center'} 
-            width={"60%"} 
-            gap={'1rem'}>
-  
+            width={"60%"}>
+
               <TextField 
                 label='Username' 
                 type='text'
                 name='username'
                 onChange={this.handleChange}
-                sx={{width: '82%'}}></TextField>
+                sx={{width: '82%', marginBottom: '1rem'}}></TextField>
                 
               <TextField 
                 label='Email' 
                 type='text'
                 name='email'
                 onChange={this.handleChange}
-                sx={{width: '82%'}}></TextField>
+                sx={{width: '82%', marginBottom: '.2rem'}}></TextField>
+
+              <Typography typography={'p'} color={'rgba(0,0,0,0.5)'} fontSize={'.9rem'} marginBottom={'1rem'}>(You may need to log in again)</Typography>
 
                 {this.state.error && this.state.message != "" ? <Alert severity='warning'>{this.state.message}</Alert> : null}
                 {!this.state.error && this.state.message == "Your profile has been successfully updated!" ? <Navigate to={"/auth/login"}/> : null}

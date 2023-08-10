@@ -2,6 +2,7 @@ package com.wmdev.WmFullStackProffesional.controller;
 
 import com.wmdev.WmFullStackProffesional.entities.Task;
 import com.wmdev.WmFullStackProffesional.service.TaskService;
+import io.swagger.models.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,5 +40,10 @@ public class TaskController {
     @PutMapping("/complete/{token}")
     public ResponseEntity<Task> completeTask(@RequestBody Task task, @PathVariable String token){
         return new ResponseEntity<>(taskService.completeTask(task, token), HttpStatus.OK);
+    }
+
+    @GetMapping("/count/{token}")
+    public ResponseEntity<Integer> countTasks(@PathVariable String token){
+        return new ResponseEntity<>(taskService.countTasksByUser(token), HttpStatus.OK);
     }
 }

@@ -31,8 +31,7 @@ export const getUserDetails = () => {
 export const userLogout = () => {
     const URL = ApiUrlBase + "/auth/logout"
     axios.post(URL)
-    .then(res => {
-        console.log(res.data)
+    .then(() => {
         sessionStorage.removeItem("access_token")
         sessionStorage.removeItem("refresh_token")
         sessionStorage.removeItem("isLogged")
@@ -57,9 +56,6 @@ export const updateUserProfile = (updateRequest) => {
             }
         }
         return axios.put(URL, updateRequest, config)
-        .catch(err => {
-            throw err
-        })
     }
 }
 

@@ -14,19 +14,36 @@ import {pencil2} from 'react-icons-kit/icomoon/pencil2'
 import {notepad_ok} from 'react-icons-kit/ikons/notepad_ok'
 import {addressBook} from 'react-icons-kit/icomoon/addressBook'
 import {pen_3} from 'react-icons-kit/ikons/pen_3'
+import { countEntity } from "../services/EntitiesService"
 
 const UserProfilePage = () => {
     const [userDetails, setUserDetails] = useState([])
+    const [tasksCount, setTasksCount] = useState(0)
+    const [contactsCount, setContactsCount] = useState(0)
+    const [notesCount, setNotesCount] = useState(0)
 
     useEffect(() => {
       getUserDetails()
       .then(res => {
         setUserDetails(res.data)
       })
+
+      countEntity("tasks")
+      .then(res => {
+        setTasksCount(res.data)
+      })
+
+      countEntity("contacts")
+      .then(res => {
+        setContactsCount(res.data)
+      })
+
+      countEntity("notes")
+      .then(res => {
+        setNotesCount(res.data)
+      })
     }, [])
 
-    
-    console.log(userDetails)
     return (
         <Box sx={{
           maxWidth: '1340px',
@@ -47,8 +64,8 @@ const UserProfilePage = () => {
             height: 'auto',
             position: 'absolute',
             right: '0',
-            top: '1.5rem',
-            padding: '3.5rem 0'
+            top: '1.2rem',
+            padding: '3rem 0'
           }}>
             <Typography typography={'h3'} alignSelf={'flex-start'}
             fontSize={'1.6rem'} marginBottom={'1rem'} position={'relative'} 
@@ -93,21 +110,21 @@ const UserProfilePage = () => {
                       <Box display={'flex'} borderBottom={'.5px solid rgba(0,0, 90, 0.4)'} marginBottom={'1rem'} gap={'.4rem'}>
                         <Icon icon={notepad_ok} className="stats-list-icon" size={20}></Icon>
                         <Typography typography={'p'} fontSize={'1.2rem'} marginBottom={'.4rem'}>
-                          <strong>Tasks:</strong> 8
+                          <strong>Tasks:</strong> {tasksCount}
                         </Typography>
                       </Box>
 
                       <Box display={'flex'} borderBottom={'.5px solid rgba(0,0, 90, 0.4)'} marginBottom={'1rem'}  gap={'.4rem'}>
                         <Icon icon={addressBook} className="stats-list-icon" size={20}></Icon>
                         <Typography typography={'p'} fontSize={'1.2rem'} marginBottom={'.4rem'}>
-                          <strong>Contacts:</strong> 17
+                          <strong>Contacts:</strong> {contactsCount}
                         </Typography>
                       </Box>
 
                       <Box display={'flex'} borderBottom={'.5px solid rgba(0,0, 90, 0.4)'} marginBottom={'1rem'}  gap={'.4rem'}>
                         <Icon icon={pen_3} className="stats-list-icon" size={20}></Icon>
                         <Typography typography={'p'} fontSize={'1.2rem'} marginBottom={'.4rem'}>
-                          <strong>Notes: </strong> 5
+                          <strong>Notes: </strong> {notesCount}
                         </Typography>
                       </Box>
                     </Box>

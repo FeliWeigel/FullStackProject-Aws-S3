@@ -37,4 +37,9 @@ class ContactController {
         return new ResponseEntity<>(contactService.removeAllContactsByUser(userToken), HttpStatus.OK);
     }
 
+    @GetMapping("/count/{userToken}")
+    public ResponseEntity<Integer> countContacts(@PathVariable String userToken){
+        return new ResponseEntity<>(contactService.countContactsByUser(userToken), HttpStatus.OK);
+    }
+
 }

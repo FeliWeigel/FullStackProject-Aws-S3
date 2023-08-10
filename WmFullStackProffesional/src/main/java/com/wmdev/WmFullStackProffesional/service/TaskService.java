@@ -133,4 +133,23 @@ public class TaskService {
 
         throw new UsernameNotFoundException("User with requested username not found.");
     }
+
+    public Integer countTasksByUser(String userToken){
+        final String username;
+        var token = tokenRepository.findByToken(userToken).orElse(null);
+
+        if(token == null){
+            throw new InvalidTokenException("The token is null or invalid to be authorized.");
+        }
+
+        username = jwtService.extractUsername(userToken);
+        var userSaved = userRepository.findByUsername(username).orElse(null);
+
+        if(userSaved != null){
+            List<Task> taskList = taskRepository.allTasksByUser(userSaved.getId());
+            return taskList.size();
+        }
+
+        throw new UsernameNotFoundException("User with requested username not found.");
+    }
 }

@@ -44,7 +44,10 @@ public class UserController {
         return new ResponseEntity<>(userService.uploadUserProfileImage(userToken,file), HttpStatus.OK);
     }
 
-    @GetMapping("/user_details/profile-image/{userToken}")
+    @GetMapping(
+            value = "/user_details/profile-image/{userToken}",
+            produces = MediaType.IMAGE_JPEG_VALUE
+    )
     public ResponseEntity<byte[]> getProfileImage(@PathVariable("userToken") String userToken){
         return new ResponseEntity<>(userService.getUserProfileImage(userToken), HttpStatus.OK);
     }

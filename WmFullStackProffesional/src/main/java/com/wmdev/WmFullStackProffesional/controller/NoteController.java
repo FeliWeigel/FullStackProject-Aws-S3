@@ -37,4 +37,9 @@ public class NoteController {
         return new ResponseEntity<>(noteService.removeAllNotesByUser(userToken), HttpStatus.OK);
     }
 
+    @GetMapping("/count/{userToken}")
+    public ResponseEntity<Integer> countNotes(@PathVariable String userToken){
+        return new ResponseEntity<>(noteService.countNotesByUser(userToken), HttpStatus.OK);
+    }
+
 }

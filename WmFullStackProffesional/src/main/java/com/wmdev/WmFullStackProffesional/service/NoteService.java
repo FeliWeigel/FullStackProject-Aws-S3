@@ -1,6 +1,7 @@
 package com.wmdev.WmFullStackProffesional.service;
 
 import com.wmdev.WmFullStackProffesional.entities.Note;
+import com.wmdev.WmFullStackProffesional.entities.Task;
 import com.wmdev.WmFullStackProffesional.exception.InvalidTokenException;
 import com.wmdev.WmFullStackProffesional.exception.NullRequestBodyException;
 import com.wmdev.WmFullStackProffesional.exception.ResourceNotFoundException;
@@ -106,6 +107,25 @@ public class NoteService {
             List<Note> userNotes = noteRepository.allNotesByUser(userSaved.getId());
             noteRepository.deleteAll(userNotes);
             return "All deleted!";
+        }
+
+        throw new UsernameNotFoundException("User with requested username not found.");
+    }
+
+    public Integer countNotesByUser(String userToken){
+        final String username;
+        var token = tokenRepository.findByToken(userToken).orElse(null);
+
+        if(token == null){
+            throw new InvalidTokenException("The token is null or invalid to be authorized.");
+        }
+
+        username = jwtService.extractUsername(userToken);
+        var userSaved = userRepository.findByUsername(username).orElse(null);
+
+        if(userSaved != null){
+            List<Note> noteList = noteRepository.allNotesByUser(userSaved.getId());
+            return noteList.size();
         }
 
         throw new UsernameNotFoundException("User with requested username not found.");
