@@ -1,5 +1,6 @@
 package com.wmdev.WmFullStackProffesional.controller;
 
+import com.wmdev.WmFullStackProffesional.entities.Contact;
 import com.wmdev.WmFullStackProffesional.entities.Note;
 import com.wmdev.WmFullStackProffesional.service.NoteService;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,11 @@ public class NoteController {
     @PostMapping("/add/{userToken}")
     public ResponseEntity<Object> addNote(@PathVariable String userToken,@RequestBody Note note){
         return noteService.addNote(note, userToken);
+    }
+
+    @PutMapping("/update/{userToken}")
+    public ResponseEntity<Object> updateNote(@RequestBody Note note, @PathVariable String userToken){
+        return noteService.updateNote(note, userToken);
     }
 
     @DeleteMapping("/delete/{noteId}/{userToken}")

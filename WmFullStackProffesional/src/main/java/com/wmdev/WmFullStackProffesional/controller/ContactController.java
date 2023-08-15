@@ -1,6 +1,7 @@
 package com.wmdev.WmFullStackProffesional.controller;
 
 import com.wmdev.WmFullStackProffesional.entities.Contact;
+import com.wmdev.WmFullStackProffesional.entities.Task;
 import com.wmdev.WmFullStackProffesional.service.ContactService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,11 @@ class ContactController {
     @PostMapping("/add/{userToken}")
     public ResponseEntity<Object> addNewContact(@PathVariable String userToken,@RequestBody Contact contact){
         return contactService.addNewContact(contact,userToken);
+    }
+
+    @PutMapping("/update/{userToken}")
+    public ResponseEntity<Object> updateContact(@RequestBody Contact contact, @PathVariable String userToken){
+        return contactService.updateContact(contact, userToken);
     }
 
     @DeleteMapping("/delete/{contactId}/{userToken}")

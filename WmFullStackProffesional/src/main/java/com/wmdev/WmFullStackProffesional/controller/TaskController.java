@@ -28,8 +28,8 @@ public class TaskController {
     }
 
     @PutMapping("/update/{token}")
-    public ResponseEntity<Task> updateTask(@RequestBody Task task, @PathVariable String token){
-        return new ResponseEntity<>(taskService.updateTask(task, token), HttpStatus.OK);
+    public ResponseEntity<Object> updateTask(@RequestBody Task task, @PathVariable String token){
+        return taskService.updateTask(task, token);
     }
 
     @DeleteMapping("/delete/{id}/{token}")

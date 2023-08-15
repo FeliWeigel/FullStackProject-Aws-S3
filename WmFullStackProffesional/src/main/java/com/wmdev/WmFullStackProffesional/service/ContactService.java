@@ -71,6 +71,33 @@ public class ContactService {
 
     }
 
+    public ResponseEntity<Object> updateContact(Contact contactUpdated, String userToken){
+        String username;
+        if(userToken == null || tokenRepository.findByToken(userToken).isEmpty()){
+            throw new InvalidTokenException("The token is null or invalid to be authorized.");
+        }
+        if(contactUpdated.getNumber() == null || contactUpdated.getFirstname() == null || contactUpdated.getLastname() == null){
+            return new ResponseEntity<>(new NullRequestBodyException("Error, the fields cannot be null."), HttpStatus.BAD_REQUEST);
+        }
+
+        username = jwtService.extractUsername(userToken);
+        var user = userRepository.findByUsername(username).orElse(null);
+        if(user != null){
+            Contact contactSaved = contactRepository.findById(contactUpdated.getId()).orElse(null);
+            if(contactSaved != null){
+                contactSaved.setFirstname(contactUpdated.getFirstname());
+                contactSaved.setLastname(contactUpdated.getLastname());
+                contactSaved.setNumber(contactUpdated.getNumber());
+                return new ResponseEntity<>(contactRepository.save(contactSaved), HttpStatus.OK);
+            }
+
+            throw new ResourceNotFoundException("Contact not found!");
+
+        }
+
+        throw new UsernameNotFoundException("User with requested username not found.");
+    }
+
     public Contact deleteContact(Long id, String userToken){
         final String username;
         var token = tokenRepository.findByToken(userToken).orElse(null);
@@ -91,10 +118,10 @@ public class ContactService {
                     return contactSaved;
                 }
 
-                throw new ResourceNotFoundException("Contact nor found for user with id: " + userSaved.getId());
+                throw new ResourceNotFoundException("Contact not found for user with id: " + userSaved.getId());
             }
 
-            throw new ResourceNotFoundException("Contact nor found!");
+            throw new ResourceNotFoundException("Contact not found!");
         }
 
         throw new UsernameNotFoundException("User with requested username not found.");

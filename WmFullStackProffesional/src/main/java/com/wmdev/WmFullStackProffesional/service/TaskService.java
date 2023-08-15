@@ -95,10 +95,13 @@ public class TaskService {
         throw new UsernameNotFoundException("User with requested username not found.");
     }
 
-    public Task updateTask(Task taskUpdated, String userToken){
+    public ResponseEntity<Object> updateTask(Task taskUpdated, String userToken){
         String username;
         if(userToken == null || tokenRepository.findByToken(userToken).isEmpty()){
             throw new InvalidTokenException("The token is null or invalid to be authorized.");
+        }
+        if(taskUpdated.getName() == null || taskUpdated.getExpirationDate() == null){
+            return new ResponseEntity<>(new NullRequestBodyException("Error, the fields cannot be null."), HttpStatus.BAD_REQUEST);
         }
 
         username = jwtService.extractUsername(userToken);
@@ -109,7 +112,7 @@ public class TaskService {
                 taskSaved.setName(taskUpdated.getName());
                 taskSaved.setExpirationDate(taskUpdated.getExpirationDate());
                 taskSaved.setIsCompleted(false);
-                return taskRepository.save(taskSaved);
+                return new ResponseEntity<>(taskRepository.save(taskSaved), HttpStatus.OK);
             }
 
             throw new ResourceNotFoundException("Task not found!");

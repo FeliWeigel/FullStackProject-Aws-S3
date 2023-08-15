@@ -1,5 +1,6 @@
 package com.wmdev.WmFullStackProffesional.service;
 
+import com.wmdev.WmFullStackProffesional.entities.Contact;
 import com.wmdev.WmFullStackProffesional.entities.Note;
 import com.wmdev.WmFullStackProffesional.entities.Task;
 import com.wmdev.WmFullStackProffesional.exception.InvalidTokenException;
@@ -64,6 +65,31 @@ public class NoteService {
         throw new UsernameNotFoundException("User with requested username not found.");
 
     }
+    public ResponseEntity<Object> updateNote(Note noteUpdated, String userToken){
+        String username;
+        if(userToken == null || tokenRepository.findByToken(userToken).isEmpty()){
+            throw new InvalidTokenException("The token is null or invalid to be authorized.");
+        }
+        if(noteUpdated.getTitle() == null){
+            return new ResponseEntity<>(new NullRequestBodyException("Error, the title cannot be null."), HttpStatus.BAD_REQUEST);
+        }
+
+        username = jwtService.extractUsername(userToken);
+        var user = userRepository.findByUsername(username).orElse(null);
+        if(user != null){
+            Note noteSaved = noteRepository.findById(noteUpdated.getId()).orElse(null);
+            if(noteSaved != null){
+                noteSaved.setTitle(noteUpdated.getTitle());
+                noteSaved.setText(noteUpdated.getText());
+                return new ResponseEntity<>(noteRepository.save(noteSaved), HttpStatus.OK);
+            }
+
+            throw new ResourceNotFoundException("Contact not found!");
+
+        }
+
+        throw new UsernameNotFoundException("User with requested username not found.");
+    }
 
     public Note deleteNote(Long id, String userToken){
         String username;
@@ -85,10 +111,10 @@ public class NoteService {
                     return noteSaved;
                 }
 
-                throw new ResourceNotFoundException("Contact nor found for user with id: " + userSaved.getId());
+                throw new ResourceNotFoundException("Note not found for user with id: " + userSaved.getId());
             }
 
-            throw new ResourceNotFoundException("Contact nor found!");
+            throw new ResourceNotFoundException("Note not found!");
         }
 
         throw new UsernameNotFoundException("User with requested username not found.");
