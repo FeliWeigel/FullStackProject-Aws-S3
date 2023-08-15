@@ -36,9 +36,7 @@ export const userLogout = () => {
         sessionStorage.removeItem("refresh_token")
         sessionStorage.removeItem("isLogged")
         sessionStorage.removeItem("taskRemove")
-        localStorage.removeItem("taskList")
-        localStorage.removeItem("contactList")
-        localStorage.removeItem("noteList")
+        sessionStorage.removeItem("contactRemove")
         location.reload()
     })
     .catch(err => {

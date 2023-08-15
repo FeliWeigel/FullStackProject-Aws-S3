@@ -1,4 +1,5 @@
-import { useState } from "react"
+/* eslint-disable react/prop-types */
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
 import { allContactsByUser } from "../../services/EntitiesService"
@@ -12,14 +13,20 @@ import {plusCircle} from 'react-icons-kit/fa/plusCircle'
 import {mobile} from 'react-icons-kit/fa/mobile'
 import RemoveItem from "../crud/RemoveItem"
 
-const ContactsCard = () => {
-    allContactsByUser()
-    const [contactList] = useState(JSON.parse(localStorage.getItem("contactList")))
-    
+const ContactsCard = ({size}) => {
+    const [contactList, setContactList] = useState([])
+
+    useEffect(() => {
+        allContactsByUser()
+        .then(res => {
+        setContactList(res.data)
+        })
+    }, [])
     return (
         <Card className="dashboard-card" variant="outlined" sx={{
             display: 'block',
             height: 'auto',
+            maxHeight: size,
             width: '100%',
             padding: '1rem',
             borderTop: '2px solid rgb(0, 0, 200)',
@@ -35,10 +42,10 @@ const ContactsCard = () => {
             <List sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '.7rem',
+                gap: '.8rem',
                 marginTop: '.3rem'
             }}>
-                {contactList === null || contactList.length === 0  ?  
+                {contactList === null || contactList === undefined ?  
                         <Box display={'flex'} flexDirection={'column'} alignItems={'center'}>
                             <Typography typography={'p'} fontSize={'1.3rem'} marginBottom={'.5rem'} textAlign={'center'}>The contact book is empty, add a new contact!</Typography>
                             <Link className="add-link" to="/contacts/add"><Icon icon={plusCircle} size={30}></Icon></Link>
@@ -54,12 +61,11 @@ const ContactsCard = () => {
                             }}>
                                 <Box display={'flex'} alignItems={'center'} gap={'1rem'}>
                                     <Box sx={{
-                                        width: '35px',
-                                        height: 'auto',
                                         background: 'rgb(0,0,54)',
-                                        borderRadius: '50%'
+                                        borderRadius: '50%',
+                                        padding: '7px'
                                     }}> 
-                                        <Typography textAlign={'center'} typography={'h5'} padding={'7px'} fontWeight={400} 
+                                        <Typography textAlign={'center'} typography={'h5'} fontWeight={400} 
                                             color={'#fff'} fontSize={'1rem'}>{contact.logo}</Typography>
                                     </Box>
                                     

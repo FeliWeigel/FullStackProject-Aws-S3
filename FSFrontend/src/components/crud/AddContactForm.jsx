@@ -1,6 +1,7 @@
-import { Box, Button, TextField } from "@mui/material"
+import { Alert, Box, Button, TextField } from "@mui/material"
 import React from "react"
 import { addEntity } from "../../services/EntitiesService"
+import LoadingSp from "../loading/LoadingSp"
 
 export default class AddContactForm extends React.Component  {
     state = {
@@ -8,7 +9,10 @@ export default class AddContactForm extends React.Component  {
             firstname: "",
             lastname: "",
             number: 0
-        }
+        },
+        error: false,
+        message: "",
+        isLoading: false
     }
 
     handleSubmit = (e) => {
@@ -25,7 +29,25 @@ export default class AddContactForm extends React.Component  {
     }
 
     handleAddContact = () => {
+        this.setState({
+            isLoading: true
+        })
+
         addEntity("contacts", this.state.contact)
+        .then(() => {
+            this.setState({
+                error: false,
+                message: "Contact added successfully!",
+                isLoading: false
+            })
+        })
+        .catch(err => {
+            this.setState({
+                error: true,
+                message: err.response.data.message,
+                isLoading: false
+            })
+        })
     }
 
     render(){
@@ -58,8 +80,15 @@ export default class AddContactForm extends React.Component  {
                         type="number"
                         onChange={this.handleChange}>
                     </TextField>
+                    {
+                        this.state.error && this.state.message != "" ? 
+                            <Alert severity="warning">{this.state.message}</Alert> : 
+                        !this.state.error && this.state.message != "" ?
+                            <Alert severity="success">{this.state.message}</Alert> : null
+                    }
+
                     <Button type="submit" variant="contained" 
-                        sx={{width: '50%', margin: '0 auto'}} onClick={this.handleAddContact}>Save Contact</Button>
+                        sx={{width: '50%', margin: '0 auto'}} onClick={this.handleAddContact}>{this.state.isLoading ? <LoadingSp size={20}/> : 'Save contact'}</Button>
                 </Box>
             )
     }

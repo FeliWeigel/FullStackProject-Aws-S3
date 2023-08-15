@@ -1,10 +1,11 @@
+/* eslint-disable react/prop-types */
 import { Link } from "react-router-dom"
 
 import "../../index.css"
 import "../css/Dashboard.css"
 import "../css/TaskList.css"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { allTaskByUser } from "../../services/EntitiesService"
 import RemoveItem from "../crud/RemoveItem"
 import CompleteTask from "../crud/CompleteTask"
@@ -14,16 +15,24 @@ import Icon from "react-icons-kit"
 import {cross} from 'react-icons-kit/icomoon/cross'
 import {checkmark} from 'react-icons-kit/icomoon/checkmark'
 import {plusCircle} from 'react-icons-kit/fa/plusCircle'
+import UpdateItem from "../crud/UpdateItem"
 
 
-const TaskListCard = () => {
-  allTaskByUser()
-  const [taskList] = useState(JSON.parse(localStorage.getItem("taskList")))
+const TaskListCard = ({size}) => {
+  const [taskList, setTaskList] = useState([])
+
+  useEffect(() => {
+    allTaskByUser()
+    .then(res => {
+      setTaskList(res.data)
+    })
+  }, [])
 
   return (
     <Card className="dashboard-card" variant="outlined" sx={{
         display: 'block',
         height: 'auto',
+        maxHeight: size,
         width: '100%',
         padding: '1rem 1.2rem .7rem 1.2rem',
         borderTop: '2px solid rgb(0,140,0)',
@@ -37,7 +46,7 @@ const TaskListCard = () => {
             color={'rgba(0,0,0,0.9)'}
             borderBottom={'1px solid rgba(0,0,0,0.3)'}>Task List</Typography>
         <List>
-            {taskList === null  || taskList.length === 0 ? 
+            {taskList === null || taskList === undefined  ? 
                   <Box display={'flex'} flexDirection={'column'} alignItems={'center'}>
                     <Typography typography={'p'} fontSize={'1.3rem'} marginBottom={'.5rem'} textAlign={'center'}>The task list is empty, add a new task!</Typography>
                     <Link className="add-link" to="/task_list/add"><Icon icon={plusCircle} size={30}></Icon></Link>
@@ -63,7 +72,13 @@ const TaskListCard = () => {
                   
                   <Box display={'flex'} gap={'.7rem'}>
                     {task.isCompleted  ? <Icon className="iscomplete-icon" icon={checkmark} size={17}></Icon> :  !task.isCompleted ? <Icon className="iscomplete-icon" icon={cross} size={15}></Icon> : null} 
-                    {sessionStorage.getItem("removeTask") == "true" ? <RemoveItem model={"task"} id={task.id}/> : sessionStorage.getItem("completeTask") == "true" ? <CompleteTask task={task}/> : null}
+                    {
+                      sessionStorage.getItem("removeTask") == "true" ? <RemoveItem model={"task"} id={task.id}/> : 
+                      sessionStorage.getItem("completeTask") == "true" ? <CompleteTask task={task}/> : 
+                      sessionStorage.getItem("updateTask") == "true" ? <UpdateItem entityId={task.id} object={"tasks"}/> 
+                      : null
+                    }
+                    <UpdateItem/>
                   </Box>
                </ListItem>
               )

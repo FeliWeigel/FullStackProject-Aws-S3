@@ -8,10 +8,19 @@ const RemoveItem = ({model, id}) => {
     function remove(){
         if(model == "task"){
             deleteEntity("tasks", id)
+            .then(() => {
+                location.reload()
+            })
         }else if(model == "contact"){
             deleteEntity("contacts", id)
+            .then(() => {
+                location.reload()
+            })
         }else if(model == "note"){
             deleteEntity("notes", id)
+            .then(() => {
+                location.reload()
+            })
         }
     }
 

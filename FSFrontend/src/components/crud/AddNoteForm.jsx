@@ -1,16 +1,20 @@
-import { Box, Button, Input } from "@mui/material"
 import React from "react"
-import { addEntity } from "../../services/EntitiesService"
+
 import "../css/Notes.css"
-import {pencil2} from 'react-icons-kit/icomoon/pencil2'
-import Icon from "react-icons-kit"
+import { addEntity } from "../../services/EntitiesService"
+
+import { Alert, Box, Button, Input } from "@mui/material"
+import LoadingSp from "../loading/LoadingSp"
 
 export default class AddNoteForm extends React.Component  {
     state = {
         note: {
             title: "",
             text: ""
-        }
+        },
+        error: false,
+        message: "",
+        isLoading: false
     }
 
     handleSubmit = (e) => {
@@ -27,7 +31,24 @@ export default class AddNoteForm extends React.Component  {
     }
 
     handleAddNote = () => {
+        this.setState({
+            isLoading: true
+        })
         addEntity("notes", this.state.note)
+        .then(() => {
+            this.setState({
+                error: false,
+                message: "Note added successfully!",
+                isLoading: false
+            })
+        })
+        .catch(err => {
+            this.setState({
+                error: true,
+                message: err.response.data.message,
+                isLoading: false
+            })
+        })
     }
 
     render(){
@@ -51,12 +72,19 @@ export default class AddNoteForm extends React.Component  {
                     <Box component={'textarea'} className="notes-textarea"
                         name="text" width={"100%"} height={"70%"}
                         padding={'.5rem'} fontFamily={"'Roboto', sans-serif"} onChange={this.handleChange}></Box>
+
+                    {
+                        this.state.error && this.state.message != "" ? 
+                            <Alert severity="warning">{this.state.message}</Alert> : 
+                        !this.state.error && this.state.message != "" ?
+                            <Alert severity="success">{this.state.message}</Alert> : null
+                    }
                     <Button type="submit" variant="contained" 
                         sx={{
                             gap: '.5rem',
                             width: '15%', 
                             margin: '0 auto', 
-                            }} onClick={this.handleAddNote}>Save<Icon icon={pencil2} size={16}></Icon></Button>
+                            }} onClick={this.handleAddNote}>{this.state.isLoading ? <LoadingSp size={20}/> : 'Save'}</Button>
                 </Box>
             )
     }

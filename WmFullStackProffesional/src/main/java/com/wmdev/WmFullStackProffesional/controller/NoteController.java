@@ -23,8 +23,8 @@ public class NoteController {
     }
 
     @PostMapping("/add/{userToken}")
-    public ResponseEntity<Note> addNote(@PathVariable String userToken,@RequestBody Note note){
-        return new ResponseEntity<>(noteService.addNote(note, userToken), HttpStatus.OK);
+    public ResponseEntity<Object> addNote(@PathVariable String userToken,@RequestBody Note note){
+        return noteService.addNote(note, userToken);
     }
 
     @DeleteMapping("/delete/{noteId}/{userToken}")

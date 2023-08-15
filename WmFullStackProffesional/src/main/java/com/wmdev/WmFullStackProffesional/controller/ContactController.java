@@ -23,8 +23,8 @@ class ContactController {
     }
 
     @PostMapping("/add/{userToken}")
-    public ResponseEntity<Contact> addNewContact(@PathVariable String userToken,@RequestBody Contact contact){
-        return new ResponseEntity<>(contactService.addNewContact(contact, userToken), HttpStatus.OK);
+    public ResponseEntity<Object> addNewContact(@PathVariable String userToken,@RequestBody Contact contact){
+        return contactService.addNewContact(contact,userToken);
     }
 
     @DeleteMapping("/delete/{contactId}/{userToken}")

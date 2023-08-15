@@ -9,6 +9,8 @@ import com.wmdev.WmFullStackProffesional.repository.UserRepository;
 import com.wmdev.WmFullStackProffesional.security.jwt.JwtService;
 import com.wmdev.WmFullStackProffesional.security.jwt.TokenRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -40,9 +42,9 @@ public class TaskService {
         throw new UsernameNotFoundException("User with requested username not found.");
     }
 
-    public Task addTask(Task task, String userToken){
-        if(task.getName().length() == 0 && task.getExpirationDate() == null){
-            throw new NullRequestBodyException("Error, incomplete request body.");
+    public ResponseEntity<Object> addTask(Task task, String userToken){
+        if(task.getName().length() == 0 || task.getExpirationDate() == null){
+            return new ResponseEntity<>(new NullRequestBodyException("Error, the fields cannot be null."), HttpStatus.BAD_REQUEST);
         }
         if(userToken == null || tokenRepository.findByToken(userToken).isEmpty()){
             throw new InvalidTokenException("The token is null or invalid to be authorized.");
@@ -59,7 +61,7 @@ public class TaskService {
                     .user(userSaved)
                     .creationDate(LocalDate.now())
                     .build();
-            return taskRepository.save(taskAdded);
+            return new ResponseEntity<>(taskRepository.save(taskAdded), HttpStatus.OK);
         }
 
         throw new UsernameNotFoundException("User with requested username not found.");
@@ -88,6 +90,30 @@ public class TaskService {
             }
 
             throw new ResourceNotFoundException("Task not found!");
+        }
+
+        throw new UsernameNotFoundException("User with requested username not found.");
+    }
+
+    public Task updateTask(Task taskUpdated, String userToken){
+        String username;
+        if(userToken == null || tokenRepository.findByToken(userToken).isEmpty()){
+            throw new InvalidTokenException("The token is null or invalid to be authorized.");
+        }
+
+        username = jwtService.extractUsername(userToken);
+        var user = userRepository.findByUsername(username).orElse(null);
+        if(user != null){
+            Task taskSaved = taskRepository.findById(taskUpdated.getId()).orElse(null);
+            if(taskSaved != null){
+                taskSaved.setName(taskUpdated.getName());
+                taskSaved.setExpirationDate(taskUpdated.getExpirationDate());
+                taskSaved.setIsCompleted(false);
+                return taskRepository.save(taskSaved);
+            }
+
+            throw new ResourceNotFoundException("Task not found!");
+
         }
 
         throw new UsernameNotFoundException("User with requested username not found.");

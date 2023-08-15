@@ -11,6 +11,8 @@ import com.wmdev.WmFullStackProffesional.security.jwt.JwtService;
 import com.wmdev.WmFullStackProffesional.security.jwt.TokenRepository;
 import com.wmdev.WmFullStackProffesional.user.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -42,21 +44,21 @@ public class NoteService {
 
     }
 
-    public Note addNote(Note note, String userToken){
+    public ResponseEntity<Object> addNote(Note note, String userToken){
         var token = tokenRepository.findByToken(userToken).orElse(null);
         String username;
         if(token == null){
             throw new InvalidTokenException("The token is null or invalid to be authorized.");
         }
-        if(note.getText() == null){
-            throw new NullRequestBodyException("Error, incomplete request body.");
+        if(note.getTitle() == null){
+            return new ResponseEntity<>(new NullRequestBodyException("Error, the title cannot be null."), HttpStatus.BAD_REQUEST);
         }
 
         username = jwtService.extractUsername(userToken);
         User userSaved = userRepository.findByUsername(username).orElse(null);
         if(userSaved != null){
             note.setUser(userSaved);
-            return noteRepository.save(note);
+            return new ResponseEntity<>(noteRepository.save(note), HttpStatus.OK);
         }
 
         throw new UsernameNotFoundException("User with requested username not found.");

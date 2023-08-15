@@ -16,7 +16,9 @@ const DashboardPage = () => {
     }}>
         {sessionStorage.getItem("isLogged") == 'true' ? null : <Navigate to="/auth/login"/>}
         {sessionStorage.removeItem("removeTask")}
+        {sessionStorage.removeItem("removeContact")}
         {sessionStorage.removeItem("completeTask")}
+        {sessionStorage.removeItem("updateTask")}
         <NavBar/>
         <NavMenu/>
         <Container sx={{
@@ -38,11 +40,11 @@ const DashboardPage = () => {
             position: 'relative'
           }}>
             <Link to="/task_list">
-              <TaskListCard/>
+              <TaskListCard size="360px"/>
             </Link>
 
             <Link to="/contacts">
-              <ContactsCard/>
+              <ContactsCard size="365px"/>
             </Link>
           </Box>
 

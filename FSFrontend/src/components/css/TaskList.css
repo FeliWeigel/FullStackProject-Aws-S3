@@ -12,6 +12,15 @@
     transition: .4s;
 }
 
+.edit-icon {
+    color: rgba(1, 1, 235, 0.815);
+    transition: .4s;
+}
+
+.edit-icon:hover {
+    color: rgb(1, 1, 223);
+}
+
 .trash-icon:hover {
     color: rgb(255, 0, 0);;
 }

@@ -11,6 +11,8 @@ import com.wmdev.WmFullStackProffesional.security.jwt.JwtService;
 import com.wmdev.WmFullStackProffesional.security.jwt.TokenRepository;
 import com.wmdev.WmFullStackProffesional.user.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -42,14 +44,14 @@ public class ContactService {
         throw new UsernameNotFoundException("User with requested username not found.");
     }
 
-    public Contact addNewContact(Contact contact, String userToken){
+    public ResponseEntity<Object> addNewContact(Contact contact, String userToken){
         var token = tokenRepository.findByToken(userToken).orElse(null);
         final String username;
         if(token == null){
             throw new InvalidTokenException("The token is null or invalid to be authorized.");
         }
         if(contact.getNumber() == null || contact.getFirstname() == null || contact.getLastname() == null){
-            throw new NullRequestBodyException("Error, incomplete request body.");
+            return new ResponseEntity<>(new NullRequestBodyException("Error, the fields cannot be null."), HttpStatus.BAD_REQUEST);
         }
 
         username = jwtService.extractUsername(userToken);
@@ -62,7 +64,7 @@ public class ContactService {
 
             contact.setLogo(userLogo);
             contact.setUser(userSaved);
-            return contactRepository.save(contact);
+            return new ResponseEntity<>(contactRepository.save(contact), HttpStatus.OK);
         }
 
         throw new UsernameNotFoundException("User with requested username not found.");

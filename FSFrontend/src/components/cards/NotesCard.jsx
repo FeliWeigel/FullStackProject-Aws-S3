@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
 import "../../index.css"
@@ -12,8 +12,13 @@ import {plusCircle} from 'react-icons-kit/fa/plusCircle'
 
 const NotesCard = () => {
     allNotesByUser()
-    const [userNotes] = useState(JSON.parse(localStorage.getItem("noteList")))
-
+    const [userNotes, setUserNotes] = useState([])
+    useEffect(() => {
+        allNotesByUser()
+        .then(res => {
+          setUserNotes(res.data)
+        })
+    }, [])
     return (
         <Card className="dashboard-card" variant="outlined" sx={{
             display: 'block',
@@ -37,7 +42,7 @@ const NotesCard = () => {
                 flexWrap: 'wrap',
                 gap: '1rem'
             }}>
-                {userNotes === null || userNotes.length === 0 ? 
+                {userNotes === null || userNotes === undefined ? 
                     <Box display={'flex'} width={'100%'} flexDirection={'column'} alignItems={'center'}>
                         <Typography typography={'p'} fontSize={'1.3rem'} marginBottom={'.5rem'} textAlign={'center'}>There are no notes saved yet, add one!</Typography>
                         <Link className="add-link" to="/notes/add"><Icon icon={plusCircle} size={30}></Icon></Link>

@@ -11,16 +11,7 @@ export const allByUser = (object) => {
                 Authorization: `Bearer ${token}`
             }
         }
-        axios.get(URL, config)
-        .then(res => {
-            if(object == "tasks"){
-                localStorage.setItem("taskList", JSON.stringify(res.data))
-            }else if(object == "contacts"){
-                localStorage.setItem("contactList", JSON.stringify(res.data))
-            }else if(object == "notes"){
-                localStorage.setItem("noteList", JSON.stringify(res.data))
-            }
-        })
+        return axios.get(URL, config)
         .catch(err => {
             console.log(err)
         })
@@ -28,38 +19,15 @@ export const allByUser = (object) => {
 }
 
 export const allTaskByUser = () => {
-    allByUser("tasks")
+    return allByUser("tasks")
 }
 
 export const allContactsByUser = () => {
-    allByUser("contacts")
+    return allByUser("contacts")
 }
 
 export const allNotesByUser = () => {
-    allByUser("notes")
-}
-
-export const deleteEntity = (object, id) => {
-    if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
-        const URL = ApiUrlBase + `/${object}/delete/${id}/${sessionStorage.getItem("access_token").toString()}`
-        let token = sessionStorage.getItem("access_token")
-        
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }
-        axios.delete(URL, config)
-        .then(() => {
-            allTaskByUser()
-            allContactsByUser()
-            allNotesByUser()
-            location.reload()
-        })
-        .catch(err => {
-            console.log(err)
-        })
-    }
+    return allByUser("notes")
 }
 
 export const addEntity = (object, entityToAdd) => {
@@ -72,13 +40,36 @@ export const addEntity = (object, entityToAdd) => {
                 Authorization: `Bearer ${token}`
             }
         }
-        axios.post(URL, entityToAdd, config)
-        .then(() => {
-            allTaskByUser()
-            allContactsByUser()
-            allNotesByUser()
-            location.reload()
-        })
+        return axios.post(URL, entityToAdd, config)
+    }
+}
+
+export const updateEntity = (object, entityUpdated) => {
+    if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
+        const URL = ApiUrlBase + `/${object}/update/${sessionStorage.getItem("access_token").toString()}`
+        let token = sessionStorage.getItem("access_token")
+        
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+        return axios.put(URL, entityUpdated, config)
+    }
+}
+
+export const deleteEntity = (object, id) => {
+    if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
+        const URL = ApiUrlBase + `/${object}/delete/${id}/${sessionStorage.getItem("access_token").toString()}`
+        let token = sessionStorage.getItem("access_token")
+        
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+        
+        return axios.delete(URL, config)
         .catch(err => {
             console.log(err)
         })
@@ -95,29 +86,22 @@ export const deleteAll = (object) => {
                 Authorization: `Bearer ${token}`
             }
         }
-        axios.delete(URL, config)
-        .then(() => {
-            allTaskByUser()
-            allContactsByUser()
-            allNotesByUser()
-            location.reload()
-        })
-        .catch(err => {
-            console.log(err)
-        })
+        
+        return axios.delete(URL, config)
+        
     }
 }
 
 export const deleteAllTasks = () => {
-    deleteAll("tasks")
+    return deleteAll("tasks")
 }
 
 export const deleteAllContacts = () => {
-    deleteAll("contacts")
+    return deleteAll("contacts")
 }
 
 export const deleteAllNotes = () => {
-    deleteAll("notes")
+    return deleteAll("notes")
 }
 
 export const countEntity = (object) => {

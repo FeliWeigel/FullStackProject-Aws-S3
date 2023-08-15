@@ -1,6 +1,5 @@
 import axios from "axios"
 import { ApiUrlBase } from "../utils/ApiUrlBase"
-import { allTaskByUser } from "./EntitiesService"
 
 export const handleCompleteTask = (task) => {
     if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
@@ -14,7 +13,6 @@ export const handleCompleteTask = (task) => {
         }
         axios.put(URL, task, config)
         .then(() => {
-            allTaskByUser()
             location.reload()
         })
         .catch(err => {
