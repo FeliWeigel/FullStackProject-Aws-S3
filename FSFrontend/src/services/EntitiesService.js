@@ -1,17 +1,20 @@
 import axios from "axios"
 import { ApiUrlBase } from "../utils/ApiUrlBase"
 
+export const config = () => {
+    let token = sessionStorage.getItem("access_token")
+    return {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+}
+
 export const allByUser = (object) => {
     if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
         const URL = ApiUrlBase + `/${object}/all/` + sessionStorage.getItem("access_token").toString()
-        let token = sessionStorage.getItem("access_token")
         
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }
-        return axios.get(URL, config)
+        return axios.get(URL, config())
         .catch(err => {
             console.log(err)
         })
@@ -33,43 +36,24 @@ export const allNotesByUser = () => {
 export const addEntity = (object, entityToAdd) => {
     if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
         const URL = ApiUrlBase + `/${object}/add/${sessionStorage.getItem("access_token").toString()}`
-        let token = sessionStorage.getItem("access_token")
         
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }
-        return axios.post(URL, entityToAdd, config)
+        return axios.post(URL, entityToAdd, config())
     }
 }
 
 export const updateEntity = (object, entityUpdated) => {
     if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
         const URL = ApiUrlBase + `/${object}/update/${sessionStorage.getItem("access_token").toString()}`
-        let token = sessionStorage.getItem("access_token")
         
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }
-        return axios.put(URL, entityUpdated, config)
+        return axios.put(URL, entityUpdated, config())
     }
 }
 
 export const deleteEntity = (object, id) => {
     if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
         const URL = ApiUrlBase + `/${object}/delete/${id}/${sessionStorage.getItem("access_token").toString()}`
-        let token = sessionStorage.getItem("access_token")
         
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }
-        
-        return axios.delete(URL, config)
+        return axios.delete(URL, config())
         .catch(err => {
             console.log(err)
         })
@@ -79,15 +63,8 @@ export const deleteEntity = (object, id) => {
 export const deleteAll = (object) => {
     if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
         const URL = ApiUrlBase + `/${object}/delete/all/${sessionStorage.getItem("access_token").toString()}`
-        let token = sessionStorage.getItem("access_token")
         
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }
-        
-        return axios.delete(URL, config)
+        return axios.delete(URL, config())
         
     }
 }
@@ -107,15 +84,8 @@ export const deleteAllNotes = () => {
 export const countEntity = (object) => {
     if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
         const URL = ApiUrlBase + `/${object}/count/${sessionStorage.getItem("access_token").toString()}`
-        let token = sessionStorage.getItem("access_token")
-        
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }
-
-        return axios.get(URL, config)
+    
+        return axios.get(URL, config())
         .catch(err => {
             console.log(err)
         })

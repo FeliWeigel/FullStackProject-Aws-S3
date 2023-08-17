@@ -45,7 +45,7 @@ const ContactsCard = ({size}) => {
                 gap: '.8rem',
                 marginTop: '.3rem'
             }}>
-                {contactList === null || contactList === undefined ?  
+                {contactList === null || contactList === undefined || contactList.length == 0 ?  
                         <Box display={'flex'} flexDirection={'column'} alignItems={'center'}>
                             <Typography typography={'p'} fontSize={'1.3rem'} marginBottom={'.5rem'} textAlign={'center'}>The contact book is empty, add a new contact!</Typography>
                             <Link className="add-link" to="/contacts/add"><Icon icon={plusCircle} size={30}></Icon></Link>

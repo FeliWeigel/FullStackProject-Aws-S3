@@ -46,7 +46,7 @@ const TaskListCard = ({size}) => {
             color={'rgba(0,0,0,0.9)'}
             borderBottom={'1px solid rgba(0,0,0,0.3)'}>Task List</Typography>
         <List>
-            {taskList === null || taskList === undefined  ? 
+            {taskList === null || taskList === undefined || taskList.length == 0 ? 
                   <Box display={'flex'} flexDirection={'column'} alignItems={'center'}>
                     <Typography typography={'p'} fontSize={'1.3rem'} marginBottom={'.5rem'} textAlign={'center'}>The task list is empty, add a new task!</Typography>
                     <Link className="add-link" to="/task_list/add"><Icon icon={plusCircle} size={30}></Icon></Link>

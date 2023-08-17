@@ -24,7 +24,7 @@ public class NoteController {
     }
 
     @PostMapping("/add/{userToken}")
-    public ResponseEntity<Object> addNote(@PathVariable String userToken,@RequestBody Note note){
+    public ResponseEntity<Object> addNote(@PathVariable String userToken, @RequestBody Note note){
         return noteService.addNote(note, userToken);
     }
 

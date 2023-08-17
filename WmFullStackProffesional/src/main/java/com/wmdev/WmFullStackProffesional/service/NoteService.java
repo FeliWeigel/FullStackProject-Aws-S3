@@ -51,7 +51,7 @@ public class NoteService {
         if(token == null){
             throw new InvalidTokenException("The token is null or invalid to be authorized.");
         }
-        if(note.getTitle() == null){
+        if(note.getTitle() == null || note.getTitle().length() == 0){
             return new ResponseEntity<>(new NullRequestBodyException("Error, the title cannot be null."), HttpStatus.BAD_REQUEST);
         }
 

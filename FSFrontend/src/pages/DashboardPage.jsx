@@ -36,6 +36,7 @@ const DashboardPage = () => {
           <Box sx={{
             display: 'flex',
             flexDirection: 'column',
+            width: '400px',
             gap: '1rem',
             position: 'relative'
           }}>
@@ -51,6 +52,7 @@ const DashboardPage = () => {
           <Box sx={{
             display: 'flex',
             flexDirection: 'column',
+            width: '450px',
             gap: '1rem',
             position: 'relative'
           }}>
