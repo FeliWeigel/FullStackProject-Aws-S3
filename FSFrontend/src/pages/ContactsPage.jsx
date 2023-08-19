@@ -15,13 +15,26 @@ import { deleteAllContacts } from "../services/EntitiesService"
 
 
 const ContactsPage = () => {
+    const [updateContact, setUpdateContact] = useState(false)
     const  [removeContact, setRemoveContact] = useState(false)
     const [removeAll, setRemoveAll] = useState(false)
+
+    function handleUpdate(){
+        if(!updateContact){
+          setUpdateContact(true)
+          sessionStorage.setItem("updateContact", true)
+          sessionStorage.setItem("removeContact", false)
+        }else {
+          setUpdateContact(false)
+          sessionStorage.setItem("updateContact", false)
+        }
+    }
 
     function handleRemove(){
         if(!removeContact){
             setRemoveContact(true)
             sessionStorage.setItem("removeContact", true)
+            sessionStorage.setItem("updateContact", false)
         }else {
             setRemoveContact(false)
             sessionStorage.setItem("removeContact", false)
@@ -77,7 +90,7 @@ const ContactsPage = () => {
                     <Link to="/contacts/add">
                         <Button title="New contact" variant="outlined"><Icon icon={plus} size={16}></Icon></Button>
                     </Link>
-                    <Button title="Edit Contact" variant="outlined"><Icon icon={edit} size={18}></Icon></Button>
+                    <Button title="Edit Contact" onClick={handleUpdate} variant={sessionStorage.getItem("updateContact") == "true" ? 'contained' : 'outlined'}><Icon icon={edit} size={18}></Icon></Button>
                     <Button title="Remove Contact" onClick={handleRemove} variant={sessionStorage.getItem("removeContact") == "true" ? 'contained' : 'outlined'}><Icon icon={trash} size={19}></Icon></Button>
                     <Button title="Remove All" onClick={handleRemoveAllState} variant="outlined"><Icon icon={cross} size={15}></Icon></Button>
                 </Box>

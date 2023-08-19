@@ -12,6 +12,7 @@ import Icon from "react-icons-kit"
 import {plusCircle} from 'react-icons-kit/fa/plusCircle'
 import {mobile} from 'react-icons-kit/fa/mobile'
 import RemoveItem from "../crud/RemoveItem"
+import UpdateItem from "../crud/UpdateItem"
 
 const ContactsCard = ({size}) => {
     const [contactList, setContactList] = useState([])
@@ -52,7 +53,7 @@ const ContactsCard = ({size}) => {
                         </Box>
                 : contactList.map(contact => {
                     return (
-                        <Box display={"flex"} gap={'.8rem'} key={contact.id}>
+                        <Box display={"flex"} alignItems={'center'} gap={'.8rem'} key={contact.id}>
                             <ListItem  sx={{
                                 display: 'flex',
                                 justifyContent: 'space-between',
@@ -78,7 +79,11 @@ const ContactsCard = ({size}) => {
                                 </Box>
 
                             </ListItem>
-                            {sessionStorage.getItem("removeContact") == "true" ? <RemoveItem model={"contact"} id={contact.id}/> : null}
+                            {
+                                sessionStorage.getItem("removeContact") == "true" ? <RemoveItem model={"contact"} id={contact.id}/> : 
+                                sessionStorage.getItem("updateContact") == "true" ? <UpdateItem object={"contacts"} entityId={contact.id}/> 
+                                : null
+                            }
                         </Box>
                        
                     )})

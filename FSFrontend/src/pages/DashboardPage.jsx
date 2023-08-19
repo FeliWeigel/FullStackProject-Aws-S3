@@ -19,6 +19,7 @@ const DashboardPage = () => {
         {sessionStorage.removeItem("removeContact")}
         {sessionStorage.removeItem("completeTask")}
         {sessionStorage.removeItem("updateTask")}
+        {sessionStorage.removeItem("updateContact")}
         <NavBar/>
         <NavMenu/>
         <Container sx={{

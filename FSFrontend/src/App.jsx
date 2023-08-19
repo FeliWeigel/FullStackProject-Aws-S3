@@ -31,6 +31,7 @@ function App() {
         <Route exact path="/notes/add" element={<AddNotePage/>}></Route>
         <Route exact path="/calendar" element={<CalendarPage/>}></Route>
       </Routes>
+
     </>
   )
 }
