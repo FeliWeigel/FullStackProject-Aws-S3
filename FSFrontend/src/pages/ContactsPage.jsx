@@ -3,15 +3,15 @@ import { Link, Navigate } from "react-router-dom"
 import NavBar from "../components/nav/NavBar"
 import NavMenu from "../components/nav/NavMenu"
 import ContactsCard from "../components/cards/ContactsCard"
+import RemoveAllPopUp from "../components/crud/RemoveAllPopUp"
 
-import { Box, Button, Container, Typography } from "@mui/material"
+import { Box, Button, Container } from "@mui/material"
 import Icon from "react-icons-kit"
 import {plus} from 'react-icons-kit/icomoon/plus'
 import {cross} from 'react-icons-kit/icomoon/cross'
 import {edit} from 'react-icons-kit/fa/edit'
 import {trash} from 'react-icons-kit/fa/trash'
 import { useState } from "react"
-import { deleteAllContacts } from "../services/EntitiesService"
 
 
 const ContactsPage = () => {
@@ -49,18 +49,6 @@ const ContactsPage = () => {
         }
     }
 
-    function handleRemoveAll(){
-        deleteAllContacts()
-        .then(() => {
-          location.reload()
-        })
-        .catch(err => {
-            console.log(err)
-        })  
-        setRemoveAll(false)
-    }
-
-
     return (
         <Box sx={{
           maxWidth: '1340px',
@@ -97,23 +85,7 @@ const ContactsPage = () => {
                 <ContactsCard size="auto"/>
             </Container>
 
-            {removeAll ? 
-                    <Box width={'100%'} position={"relative"} height={'100vh'} sx={{
-                        background: 'rgba(0,0,0,0.5)',
-                        backgroundSize: 'cover'
-                    }}>
-                        <Box position={'absolute'} top={'40%'} left={'40%'} padding={'1rem'} sx={{
-                        background: 'rgb(0,0,90)',
-                        color: '#fff'
-                        }}>
-                        <Typography typography={'p'} fontSize={'1.1rem'} textAlign={'center'} marginBottom={'.5rem'}>Are you sure you want to delete everything?</Typography>
-                        <Box display={'flex'} justifyContent={'center'} gap={'1rem'}>
-                            <Button onClick={handleRemoveAll} variant="outlined">Yes</Button>
-                            <Button onClick={handleRemoveAllState} variant="outlined">No</Button>
-                        </Box>
-                        </Box>
-                    </Box> 
-            : null}
+            {removeAll ? <RemoveAllPopUp entity="contacts" buttonProps={<Button onClick={handleRemoveAllState} variant="outlined">No</Button>}/> : null}      
         </Box>
     )
 }

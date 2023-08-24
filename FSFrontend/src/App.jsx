@@ -12,6 +12,7 @@ import NotesPage from "./pages/NotesPage"
 import UpdateProfilePage from "./pages/UpdateProfilePage"
 import UserProfilePage from "./pages/UserProfilePage"
 import UpdateTaskPage from "./pages/UpdateTaskPage"
+import UpdateContactPage from "./pages/UpdateContactPage"
 function App() {
 
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route exact path="/task_list/update/:taskId" element={<UpdateTaskPage/>}></Route>
         <Route exact path="/contacts" element={<ContactsPage/>}></Route>
         <Route exact path="/contacts/add" element={<AddContactPage/>}></Route>
+        <Route exact path="/contacts/update/:contactId" element={<UpdateContactPage/>}></Route>
         <Route exact path="/notes" element={<NotesPage/>}></Route>
         <Route exact path="/notes/add" element={<AddNotePage/>}></Route>
         <Route exact path="/calendar" element={<CalendarPage/>}></Route>

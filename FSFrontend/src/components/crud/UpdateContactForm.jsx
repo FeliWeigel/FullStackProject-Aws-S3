@@ -1,24 +1,29 @@
 
-import { Alert, Box, Button, FormLabel, TextField } from "@mui/material"
+import { Alert, Box, Button, TextField } from "@mui/material"
 import LoadingSp from "../loading/LoadingSp"
 import { useParams } from "react-router-dom"
 import { updateEntity } from "../../services/EntitiesService"
 import { useState } from "react"
 
-export default function UpdateTaskForm() {
-  let taskSavedId = useParams("taskId")
-  const [taskName, setTaskName] = useState("")
-  const [taskDate, setTaskDate] = useState("")
+export default function UpdateContactForm() {
+  let contactSavedId = useParams("contactId")
+  const [contactFirstname, setContactFirstname] = useState("")
+  const [contactLastname, setContactLastname] = useState("")
+  const [contactNumber, setContactNumber] = useState(0)
   const [error, setError] = useState(false)
   const [message, setMessage] = useState("")
   const [isLoading, setIsLoading] = useState(false)
 
-  async function handleChangeName(e){
-    setTaskName(e.target.value)
+  async function handleChangeFirstname(e){
+    setContactFirstname(e.target.value)
   }
 
-  async function handleChangeDate(e){
-    setTaskDate(e.target.value)
+  async function handleChangeLastname(e){
+    setContactLastname(e.target.value)
+  }
+
+  async function handleChangeNumber(e){
+    setContactNumber(e.target.value)
   }
 
   function handleSubmit(e){
@@ -28,23 +33,23 @@ export default function UpdateTaskForm() {
   function handleUpdate(){
     setIsLoading(true)
 
-    let task = {
-      id: taskSavedId.taskId,
-      name: taskName,
-      expirationDate: taskDate
+    let contact = {
+      id: contactSavedId.contactId,
+      firstname: contactFirstname,
+      lastname: contactLastname,
+      number: contactNumber
     }
 
-    updateEntity("tasks", task)
+    updateEntity("contacts", contact)
     .then(() => {
       setError(false)
       setIsLoading(false)
-      setMessage("Task successfully updated!")
+      setMessage("Contact successfully updated!")
     })
     .catch(err => {
       setError(true)
       setIsLoading(false)
       setMessage(err.response.data.message)
-      console.log(err)
     })
 
   }
@@ -58,19 +63,24 @@ export default function UpdateTaskForm() {
         padding: '2rem',
         boxShadow: '0px 0px 4px -1px rgba(0,0,140, 0.7)'
     }}>
-        <TextField
-            label="Name"
-            name="name"
-            type="text"
-            onChange={handleChangeName}
-            ></TextField>
-        <Box display={'flex'} flexDirection={'column'}>
-            <FormLabel>Expiration Date</FormLabel>
-            <TextField
-                name="expirationDate"
-                type="date"
-                onChange={handleChangeDate}></TextField>
+        <Box display={'flex'} gap={'1rem'}>
+          <TextField
+              label="Firstname"
+              name="firstname"
+              type="text"
+              onChange={handleChangeFirstname}></TextField>
+          <TextField
+              label="Lastname"
+              name="lastname"
+              type="text"
+              onChange={handleChangeLastname}></TextField>
         </Box>
+        <TextField
+        label="Number"
+        name="number"
+        type="number"
+        onChange={handleChangeNumber}
+        ></TextField>
         {
             error && message != "" ? 
                 <Alert severity="warning">{message}</Alert> : 
@@ -82,4 +92,3 @@ export default function UpdateTaskForm() {
     </Box>
   )
 }
-

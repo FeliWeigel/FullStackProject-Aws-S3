@@ -23,6 +23,7 @@ const ContactsCard = ({size}) => {
         setContactList(res.data)
         })
     }, [])
+    
     return (
         <Card className="dashboard-card" variant="outlined" sx={{
             display: 'block',
@@ -67,7 +68,7 @@ const ContactsCard = ({size}) => {
                                         padding: '7px'
                                     }}> 
                                         <Typography textAlign={'center'} typography={'h5'} fontWeight={400} 
-                                            color={'#fff'} fontSize={'1rem'}>{contact.logo}</Typography>
+                                            color={'#fff'} fontSize={'1rem'}>{contact.logo.toUpperCase()}</Typography>
                                     </Box>
                                     
                                     <Typography typography={'p'}>{contact.firstname} {contact.lastname}</Typography>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Link, Navigate } from "react-router-dom"
 
 import "../index.css"
+import { countEntity } from "../services/EntitiesService"
 import "../components/css/UserProfile.css"
 import NavBar from "../components/nav/NavBar"
 import NavMenu from "../components/nav/NavMenu"
@@ -14,7 +15,8 @@ import {pencil2} from 'react-icons-kit/icomoon/pencil2'
 import {notepad_ok} from 'react-icons-kit/ikons/notepad_ok'
 import {addressBook} from 'react-icons-kit/icomoon/addressBook'
 import {pen_3} from 'react-icons-kit/ikons/pen_3'
-import { countEntity } from "../services/EntitiesService"
+import {iosContact} from 'react-icons-kit/ionicons/iosContact'
+
 
 const UserProfilePage = () => {
     const [userDetails, setUserDetails] = useState([])
@@ -83,7 +85,22 @@ const UserProfilePage = () => {
               <Box width={'95%'} display={'flex'} flexDirection={'column'} alignItems={'center'}>    
 
                 <Box width={'100%'} borderBottom={"1px solid rgba(0,0,150,0.4)"} textAlign={'center'}>     
-                  <img className='profile-img' src={getUserProfileImageUrl()} alt=""/>
+                  {
+                    userDetails.profileImageId != null ? <img className='profile-img' src={getUserProfileImageUrl()} alt=""/> 
+                      : 
+                    <Box className="profile-img" sx={{
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center',
+                      width: '20%',
+                      background: 'rgba(65, 65, 65, 0.936)',
+                      border: 'none', 
+                      margin: '0 auto', 
+                      marginBottom: '1rem'
+                    }}>
+                      <Icon className="user-default-icon" icon={iosContact} size={185}></Icon>
+                    </Box>
+                  }
                 </Box>
 
                 <Box width={'100%'} padding={'1rem 1.4rem'} display={'flex'} justifyContent={'space-between'}>

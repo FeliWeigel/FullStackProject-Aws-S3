@@ -50,7 +50,7 @@ public class ContactService {
         if(token == null){
             throw new InvalidTokenException("The token is null or invalid to be authorized.");
         }
-        if(contact.getNumber() == null || contact.getFirstname() == null || contact.getLastname() == null){
+        if(contact.getNumber() == null || contact.getFirstname().isBlank() || contact.getLastname().isBlank()){
             return new ResponseEntity<>(new NullRequestBodyException("Error, the fields cannot be null."), HttpStatus.BAD_REQUEST);
         }
 

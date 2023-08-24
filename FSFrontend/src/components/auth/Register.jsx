@@ -141,8 +141,8 @@ export default class Register extends React.Component{
                             onChange={this.handleOnChange}
                         ></TextField>
 
-                        {this.state.error && this.state.message != "" ? <Alert severity="warning" sx={{width: '85%'}}>{this.state.message}</Alert> : 
-                            !this.state.error && this.state.message != "" ? <Alert severity="success" sx={{width: '85%'}}>{this.state.message}<Link className="to-log-reg-link" to="/auth/login">Log in here!</Link></Alert> : null}
+                        {this.state.error && this.state.message != "" ? <Alert severity="warning" sx={{width: '320px'}}>{this.state.message}</Alert> : 
+                            !this.state.error && this.state.message != "" ? <Alert severity="success" sx={{width: '70%'}}>{this.state.message}<Link className="to-log-reg-link" to="/auth/login">Log in here!</Link></Alert> : null}
 
                         <Button type="submit" onClick={this.handleRegister} variant="contained" sx={{width:"120px"}}>{this.state.isLoading ? <LoadingSp size={20}/> : "Register"}</Button>
                         <Link className="to-log-reg-link" to="/auth/login">Do you already have an account? Sign in here!</Link>

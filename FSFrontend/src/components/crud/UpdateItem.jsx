@@ -14,10 +14,6 @@ const UpdateItem = ({object, entityId}) => {
        object === "contacts" ?
         <Link to={`/contacts/update/${entityId}`}>
           <Icon className="edit-icon" icon={edit} size={20}></Icon>
-        </Link> : 
-        object === "notes" ?
-        <Link to={`/notes/update/${entityId}`}>
-          <Icon className="edit-icon" icon={edit} size={20}></Icon>
         </Link> : null
       }
     </>

@@ -16,11 +16,6 @@ const RemoveItem = ({model, id}) => {
             .then(() => {
                 location.reload()
             })
-        }else if(model == "note"){
-            deleteEntity("notes", id)
-            .then(() => {
-                location.reload()
-            })
         }
     }
 

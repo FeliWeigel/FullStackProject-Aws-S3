@@ -58,7 +58,7 @@ const NavBar = () => {
           alignItems: 'center',
           justifyContent: 'center',
           borderRadius: '50%',
-          background: 'rgb(120, 120, 120)',
+          background: 'rgba(80, 80, 80, 0.936)',
           color: '#fff',
           textAlign: 'center'
         }}>

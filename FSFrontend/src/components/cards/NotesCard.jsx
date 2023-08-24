@@ -11,7 +11,7 @@ import Icon from "react-icons-kit"
 import {plusCircle} from 'react-icons-kit/fa/plusCircle'
 import {threeHorizontal} from 'react-icons-kit/entypo/threeHorizontal'
 import {edit} from 'react-icons-kit/fa/edit'
-import {trash} from 'react-icons-kit/fa/trash'
+import RemoveItemAlt from "../crud/RemoveItemAlt"
 
 const NotesCard = () => {
     const [userNotes, setUserNotes] = useState([])
@@ -27,6 +27,7 @@ const NotesCard = () => {
           setUserNotes(res.data)
         })
     }, [])
+
     return (
         <Card className="dashboard-card" variant="outlined" sx={{
             display: 'block',
@@ -62,7 +63,7 @@ const NotesCard = () => {
                             <Box key={note.id} sx={{
                                 width: '45%',
                                 position: 'relative',
-                                padding: '1.2rem 1rem',
+                                padding: '1.65rem 1rem',
                                 boxShadow: '0px 0px 3px -1px rgba(0,0,100,0.5) ',
                                 height: '230px',
                                 cursor: 'pointer'
@@ -81,26 +82,26 @@ const NotesCard = () => {
                                 }}><Icon icon={threeHorizontal} size={22}></Icon></Button>
 
                                 <Box className="actions-hidden">
-                                        <Button sx={{
-                                            display: 'flex',
-                                            padding: '.35rem .5rem',
-                                            justifyContent: 'flex-start',
-                                            width: '90px',
-                                            color: 'rgb(0,0,120)',
-                                            gap: '.3rem'}}><Icon icon={edit}></Icon>Edit</Button>
+                                        <Link to={`/notes/update/${note.id}`}>
+                                            <Button sx={{
+                                                display: 'flex',
+                                                padding: '.35rem .5rem',
+                                                justifyContent: 'flex-start',
+                                                width: '90px',
+                                                color: 'rgb(0,0,120)',
+                                                gap: '.3rem'
+                                            }}>
+                                                <Icon icon={edit} size={20}></Icon> Update
+                                            </Button>
+                                        </Link>
+                                        
                                         <Box sx={{
                                             width: '90%',
                                             margin: '0 auto',
                                             height: '.5px',
                                             background: 'rgba(0,0,150, 0.3)'
                                         }}></Box>
-                                        <Button sx={{
-                                            display: 'flex',
-                                            padding: '.4rem .5rem',
-                                            justifyContent: 'flex-start',
-                                            width: '90px',
-                                            color: 'rgb(0,0,120)',
-                                            gap: '.3rem'}}><Icon icon={trash}></Icon>Delete</Button>
+                                        <RemoveItemAlt object={"notes"} id={note.id}/>
                                     </Box> 
 
                                 <Typography typography={'h5'} position={'relative'} fontSize={'1rem'} marginBottom={'.3rem'} sx={{

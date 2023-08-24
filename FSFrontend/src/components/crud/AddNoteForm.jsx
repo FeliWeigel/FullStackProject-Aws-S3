@@ -67,7 +67,7 @@ export default class AddNoteForm extends React.Component  {
                         placeholder="Title"
                         name="title"
                         type="text"
-                        onChange={this.handleChange}>
+                        onChange={this.handleChange} sx={{fontSize: '1.5rem', fontWeight: '500'}}>
                     </Input>
                     <Box component={'textarea'} className="notes-textarea"
                         name="text" width={"100%"} height={"70%"}

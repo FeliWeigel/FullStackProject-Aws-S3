@@ -64,7 +64,7 @@ public class UserService {
         User userSaved = userRepository.findByUsername(username).orElse(null);
 
         if(userSaved != null){
-            if(userUpdateRequest.getUsername().length() > 0 && userUpdateRequest.getEmail().length() > 0){
+            if(!userUpdateRequest.getUsername().isBlank() && !userUpdateRequest.getEmail().isBlank()){
                 if(userRepository.findByUsername(userUpdateRequest.getUsername()).isPresent()){
                     return new ResponseEntity<>(
                             new BusyCredentialsException("Warning! The username is associated with an existing account."),
