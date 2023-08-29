@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
@@ -13,7 +14,7 @@ import {threeHorizontal} from 'react-icons-kit/entypo/threeHorizontal'
 import {edit} from 'react-icons-kit/fa/edit'
 import RemoveItemAlt from "../crud/RemoveItemAlt"
 
-const NotesCard = () => {
+const NotesCard = ({size}) => {
     const [userNotes, setUserNotes] = useState([])
 
     function handleActions(e){
@@ -32,6 +33,7 @@ const NotesCard = () => {
         <Card className="dashboard-card" variant="outlined" sx={{
             display: 'block',
             height: 'auto',
+            maxHeight: size,
             width: '98%',
             padding: '.8rem',
             borderTop: '2px solid rgb(230, 61, 0)',

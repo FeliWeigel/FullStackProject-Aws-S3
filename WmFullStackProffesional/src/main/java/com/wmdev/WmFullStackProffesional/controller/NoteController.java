@@ -23,6 +23,11 @@ public class NoteController {
         return new ResponseEntity<>(noteService.getAllNotesByUser(userToken), HttpStatus.OK);
     }
 
+    @GetMapping("/all/{id}/{userToken}")
+    public ResponseEntity<Note> getNoteById(@PathVariable Long id, @PathVariable String userToken){
+        return new ResponseEntity<>(noteService.findNoteById(id, userToken),HttpStatus.OK);
+    }
+
     @PostMapping("/add/{userToken}")
     public ResponseEntity<Object> addNote(@PathVariable String userToken, @RequestBody Note note){
         return noteService.addNote(note, userToken);

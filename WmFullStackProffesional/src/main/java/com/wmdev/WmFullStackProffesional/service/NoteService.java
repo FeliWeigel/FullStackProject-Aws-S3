@@ -45,6 +45,30 @@ public class NoteService {
 
     }
 
+    public Note findNoteById(Long id, String userToken){
+        var token = tokenRepository.findByToken(userToken).orElse(null);
+        String username;
+        if(token == null){
+            throw new InvalidTokenException("The token is null or invalid to be authorized.");
+        }
+
+        username = jwtService.extractUsername(userToken);
+        User userSaved = userRepository.findByUsername(username).orElse(null);
+        if(userSaved != null) {
+            Note noteSaved = noteRepository.findById(id).orElse(null);
+            List<Note> notesByUser = noteRepository.allNotesByUser(userSaved.getId());
+            if(noteSaved != null) {
+                if(notesByUser.contains(noteSaved)) {
+                    return noteSaved;
+                }
+
+                throw new ResourceNotFoundException("Note not found for user: " + userSaved.getId());
+            }
+            throw new ResourceNotFoundException("Note not found in db.");
+        }
+        throw new UsernameNotFoundException("User with requested username not found.");
+    }
+
     public ResponseEntity<Object> addNote(Note note, String userToken){
         var token = tokenRepository.findByToken(userToken).orElse(null);
         String username;
@@ -70,7 +94,7 @@ public class NoteService {
         if(userToken == null || tokenRepository.findByToken(userToken).isEmpty()){
             throw new InvalidTokenException("The token is null or invalid to be authorized.");
         }
-        if(noteUpdated.getTitle() == null){
+        if(noteUpdated.getTitle().isBlank()){
             return new ResponseEntity<>(new NullRequestBodyException("Error, the title cannot be null."), HttpStatus.BAD_REQUEST);
         }
 

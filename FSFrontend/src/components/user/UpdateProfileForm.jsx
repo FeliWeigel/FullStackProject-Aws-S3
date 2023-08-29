@@ -6,7 +6,7 @@ import "../css/UserProfile.css"
 
 import LoadingSp from '../loading/LoadingSp'
 
-import { getUserProfileImageUrl, updateUserProfile, uploadUserProfileImage , getUserDetails} from '../../services/UserService'
+import { getUserProfileImageUrl, updateUserProfile, uploadUserProfileImage , getUserDetails, userLogout} from '../../services/UserService'
 
 import { Alert, Box, Button, TextField, Typography } from '@mui/material'
 import Icon from 'react-icons-kit'
@@ -85,6 +85,7 @@ export default class UpdateProfileForm extends React.Component {
         error: false,
         message: "Your profile has been successfully updated!"
       })
+      userLogout()
     })
     .catch(err => {
       this.setState({

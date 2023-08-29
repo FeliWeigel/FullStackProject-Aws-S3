@@ -33,6 +33,21 @@ export const allNotesByUser = () => {
     return allByUser("notes")
 }
 
+export const getByUser = (object, id) => {
+    if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
+        const URL = ApiUrlBase + `/${object}/all/${id}/` + sessionStorage.getItem("access_token").toString()
+        
+        return axios.get(URL, config())
+        .catch(err => {
+            console.log(err)
+        })
+    }
+}
+
+export const getNoteByUser = (id) => {
+    return getByUser("notes", id)
+}
+
 export const addEntity = (object, entityToAdd) => {
     if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
         const URL = ApiUrlBase + `/${object}/add/${sessionStorage.getItem("access_token").toString()}`

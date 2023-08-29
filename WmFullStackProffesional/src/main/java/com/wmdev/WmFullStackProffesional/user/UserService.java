@@ -12,6 +12,7 @@ import com.wmdev.WmFullStackProffesional.security.jwt.TokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -79,6 +80,7 @@ public class UserService {
 
                 userSaved.setUsername(userUpdateRequest.getUsername());
                 userSaved.setEmail(userUpdateRequest.getEmail());
+                SecurityContextHolder.clearContext();
                 return new ResponseEntity<>(userRepository.save(userSaved), HttpStatus.OK);
             }
 

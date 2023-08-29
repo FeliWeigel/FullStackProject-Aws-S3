@@ -62,7 +62,7 @@ const DashboardPage = () => {
             </Link>
 
             <Link to="/notes"> 
-              <NotesCard/>
+              <NotesCard size={'540px'}/>
             </Link>
           </Box>
 
