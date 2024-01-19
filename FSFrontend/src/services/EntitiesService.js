@@ -12,7 +12,7 @@ export const config = () => {
 
 export const allByUser = (object) => {
     if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
-        const URL = ApiUrlBase + `/${object}/all/` + sessionStorage.getItem("access_token").toString()
+        const URL = ApiUrlBase + `/${object}/all/`
         
         return axios.get(URL, config())
         .catch(err => {
@@ -35,7 +35,7 @@ export const allNotesByUser = () => {
 
 export const getByUser = (object, id) => {
     if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
-        const URL = ApiUrlBase + `/${object}/all/${id}/` + sessionStorage.getItem("access_token").toString()
+        const URL = ApiUrlBase + `/${object}/all/${id}`
         
         return axios.get(URL, config())
         .catch(err => {
@@ -50,7 +50,7 @@ export const getNoteByUser = (id) => {
 
 export const addEntity = (object, entityToAdd) => {
     if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
-        const URL = ApiUrlBase + `/${object}/add/${sessionStorage.getItem("access_token").toString()}`
+        const URL = ApiUrlBase + `/${object}/add/`
         
         return axios.post(URL, entityToAdd, config())
     }
@@ -58,7 +58,7 @@ export const addEntity = (object, entityToAdd) => {
 
 export const updateEntity = (object, entityUpdated) => {
     if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
-        const URL = ApiUrlBase + `/${object}/update/${sessionStorage.getItem("access_token").toString()}`
+        const URL = ApiUrlBase + `/${object}/update/`
         
         return axios.put(URL, entityUpdated, config())
     }

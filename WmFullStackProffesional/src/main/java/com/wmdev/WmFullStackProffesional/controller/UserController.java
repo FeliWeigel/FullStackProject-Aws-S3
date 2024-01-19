@@ -26,29 +26,40 @@ public class UserController {
         return new ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/user_details/{userToken}")
-    public ResponseEntity<User> getUserProfileDetails(@PathVariable("userToken") String userToken){
+    @GetMapping("/user_details")
+    public ResponseEntity<User> getUserProfileDetails(@RequestHeader(name = "Authorization") String authHeader){
+        String userToken = extractToken(authHeader);
         return new ResponseEntity<>(userService.getUserProfile(userToken), HttpStatus.OK);
     }
 
-    @PutMapping("/update/{userToken}")
-    public ResponseEntity<Object> updateUser(@PathVariable("userToken") String userToken, @RequestBody UserUpdateRequest userUpdateRequest){
+    @PutMapping("/update")
+    public ResponseEntity<Object> updateUser(@RequestHeader(name = "Authorization") String authHeader, @RequestBody UserUpdateRequest userUpdateRequest){
+        String userToken = extractToken(authHeader);
         return userService.updateUserProfile(userToken, userUpdateRequest);
     }
 
     @PostMapping(
-            value = "/update/{userToken}/profile-image",
+            value = "/update/profile-image",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
-    public ResponseEntity<String> uploadProfileImage(@PathVariable("userToken") String userToken, @RequestParam("file") MultipartFile file){
+    public ResponseEntity<String> uploadProfileImage(@RequestHeader(name = "Authorization") String authHeader, @RequestParam("file") MultipartFile file){
+        String userToken = extractToken(authHeader);
         return new ResponseEntity<>(userService.uploadUserProfileImage(userToken,file), HttpStatus.OK);
     }
 
     @GetMapping(
-            value = "/user_details/profile-image/{userToken}",
+            value = "/user_details/profile-image",
             produces = MediaType.IMAGE_JPEG_VALUE
     )
-    public ResponseEntity<byte[]> getProfileImage(@PathVariable("userToken") String userToken){
+    public ResponseEntity<byte[]> getProfileImage(@RequestHeader(name = "Authorization") String authHeader){
+        String userToken = extractToken(authHeader);
         return new ResponseEntity<>(userService.getUserProfileImage(userToken), HttpStatus.OK);
+    }
+
+    private String extractToken(String authorizationHeader) {
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            return authorizationHeader.substring(7);
+        }
+        return null;
     }
 }

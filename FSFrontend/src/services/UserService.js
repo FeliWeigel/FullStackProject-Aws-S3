@@ -12,7 +12,7 @@ export const config = () => {
 
 export const getUserDetails = () => {
     if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
-        const URL = ApiUrlBase + `/users/user_details/${sessionStorage.getItem("access_token").toString()}`
+        const URL = ApiUrlBase + `/users/user_details/`
 
         return axios.get(URL, config())
         .catch(err => {
@@ -39,7 +39,7 @@ export const userLogout = () => {
 
 export const updateUserProfile = (updateRequest) => {
     if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
-        const URL = ApiUrlBase + `/users/update/${sessionStorage.getItem("access_token").toString()}`
+        const URL = ApiUrlBase + `/users/update`
         
         return axios.put(URL, updateRequest, config())
     }
@@ -47,7 +47,7 @@ export const updateUserProfile = (updateRequest) => {
 
 export const uploadUserProfileImage = async(formData) => {
     if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
-        const URL = ApiUrlBase + `/users/update/${sessionStorage.getItem("access_token").toString()}/profile-image`
+        const URL = ApiUrlBase + `/users/update/profile-image`
 
         return axios.post(URL, formData, config())
         .then(() => {

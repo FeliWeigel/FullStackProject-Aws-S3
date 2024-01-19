@@ -12,7 +12,7 @@ export const config = () => {
 
 export const handleCompleteTask = (task) => {
     if(sessionStorage.getItem("access_token") !== null && sessionStorage.getItem("isLogged") == "true"){     
-        const URL = ApiUrlBase + `/tasks/complete/${sessionStorage.getItem("access_token").toString()}`
+        const URL = ApiUrlBase + `/tasks/complete`
         
         axios.put(URL, task, config())
         .then(() => {
